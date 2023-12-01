@@ -130,22 +130,23 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
                     where TypeID in (
                     select TypeID from Types
                     where type = 'Doctor')""")
+                    
         self.comboDoctor.addItems(('',))
         for i in cursor.fetchall():
             self.comboDoctor.addItems(i)
         
         self.comboDoctor.setCurrentIndex(0)
         
-                
+        self.populateWaitlist()
         self.pushAdd.clicked.connect(self.addPatient)
         self.pushSearch.clicked.connect(self.searchPatient)
         self.pushBook.clicked.connect(self.bookAppointment)
         self.pushClear.clicked.connect(self.clearSearch)
         self.pushSearchWaitlist.clicked.connect(self.searchWaitlist)
-        self.pushClearFilters.clicked.connect(self.clearWaitlistSearch)
+        self.pushClearFilters.clicked.connect(self.populateWaitlist)
         self.pushCancel.clicked.connect(self.cancelAppointment)
         self.pushRefreshWaitlist.clicked.connect(self.searchWaitlist) # connected here cos it should just redo the query with the same filters
-        self.pushClose.clicked.connect(self.close)
+        # self.pushClose.clicked.connect(self.close)
         self.pushLogOut.clicked.connect(self.relog)
 
     def addPatient(self):
@@ -160,11 +161,11 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
 
         if str(self.lineMR.text()).strip() ==  '':
             # print("hello")
-            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where PhoneNum like '{str(self.linePhone.text())}%'")
+            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where PhoneNum like '%{str(self.linePhone.text())}%'")
         
 
         else:
-            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR = {str(self.lineMR.text())} and PhoneNum like '{str(self.linePhone.text())}%'")
+            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR = {str(self.lineMR.text())} and PhoneNum like '%{str(self.linePhone.text())}%'")
 
 	
 	# Fetch all rows and populate the table
@@ -204,23 +205,50 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
 
     def searchWaitlist(self):
         # populate tablewidgetWaitlist with the results that match Doctor and Date
-        pass
-
-    def clearWaitlistSearch(self):
         self.tablewidgetWaitlist.clearContents()
+        self.tablewidgetWaitlist.setRowCount(0)
+
+        if self.comboDoctor.currentText().strip() == '':
+            cursor.execute(f"SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName as Doctor, R.RoomName, A.Date FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND A.Date = '{self.dateEdit.text()}' AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
+        else:
+            cursor.execute(f"SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName, R.RoomName, A.Date FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND A.Date = '{self.dateEdit.text()}' AND U.FirstName + ' ' + U.LastName = '{self.comboDoctor.currentText()}' AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
+
+        # Fetch all rows and populate the table
+        for row_index, row_data in enumerate(cursor.fetchall()):
+            self.tablewidgetWaitlist.insertRow(row_index)
+            for col_index, cell_data in enumerate(row_data):
+                item = QTableWidgetItem(str(cell_data))
+                self.tablewidgetWaitlist.setItem(row_index, col_index, item)
+
+    def populateWaitlist(self):
         # repopulate with all upcoming appointments
+        self.tablewidgetWaitlist.clearContents()
+        self.tablewidgetWaitlist.setRowCount(0)
+
+        cursor.execute("SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName as Doctor, R.RoomName, A.Date FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND DATEPART(DY, A.Date) >= DATEPART(DY,GETDATE()) AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
+
+        # Fetch all rows and populate the table
+        for row_index, row_data in enumerate(cursor.fetchall()):
+            self.tablewidgetWaitlist.insertRow(row_index)
+            for col_index, cell_data in enumerate(row_data):
+                item = QTableWidgetItem(str(cell_data))
+                self.tablewidgetWaitlist.setItem(row_index, col_index, item)
 
     def cancelAppointment(self):
 
         row = self.tablewidgetWaitlist.currentRow()
+
         if row != -1:
             self.confirmation = QtWidgets.QMessageBox.warning(self, "Confirmation Box", "Are you sure you want to delete this appointment?", QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
 
             if self.confirmation == QtWidgets.QMessageBox.StandardButton.Yes:
-
                 # delete the selected row in tablewidgetWaitlist from the appointments table and repopulate tablewidgetWaitlist
-
-                self.tablewidgetWaitlist.removeRow(row)
+                # NEEDS TO BE EDITED WITH THE TURN NUMBER SO IT DOESN'T DELETE MULTIPLE APPOINTMENTS
+                cursor.execute (f'''
+                DELETE FROM Appointments 
+                WHERE MR = {int(self.tablewidgetWaitlist.item(row,0).text())} AND Date = '{self.tablewidgetWaitlist.item(row,4).text()}'
+                ''')
+                connection.commit()
 
             self.tablewidgetWaitlist.setCurrentCell(-1,-1)
 
@@ -301,6 +329,7 @@ class BookAppointment(QtWidgets.QMainWindow):
         # populate the combobox with the doctors of the selected specialization
         self.comboDoctor.clear()
         cursor.execute(f"select FirstName + ' ' + LastName as UserName from Users where UserID IN (SELECT DoctorID FROM Doctors WHERE SpecializationID = (SELECT SpecializationID FROM Specialization WHERE Specialization = '{self.comboSpecialization.currentText()}'))")
+        
         for i in cursor.fetchall():
             self.comboDoctor.addItems(i)
 
