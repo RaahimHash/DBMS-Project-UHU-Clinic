@@ -15,7 +15,7 @@ cursor = connection.cursor()
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
         super(UI, self).__init__() 
-        uic.loadUi('Login Screen.ui', self) 
+        uic.loadUi('Screens\Login Screen.ui', self) 
         self.setWindowTitle("DBClinic")
 
         self.populateType()
@@ -122,7 +122,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
     
     def __init__(self):
         super(ReceptionistMainMenu, self).__init__()
-        uic.loadUi("Receptionist MainMenu.ui",self)
+        uic.loadUi("Screens\Receptionist MainMenu.ui",self)
         self.setWindowTitle("Receptionist View")
         
         cursor.execute("""
@@ -277,7 +277,7 @@ class BookAppointment(QtWidgets.QMainWindow):
     
     def __init__(self, Name, Phone):
         super(BookAppointment, self).__init__()
-        uic.loadUi("Receptionist AddAppointment.ui",self)
+        uic.loadUi("Screens\Receptionist AddAppointment.ui",self)
         self.setWindowTitle("Book Appointment")
 
         # selected_row=self.tablewidgetSearch.currentRow()
@@ -352,7 +352,7 @@ class BookAppointment(QtWidgets.QMainWindow):
 class AddPatient(QtWidgets.QMainWindow):
     def __init__(self):
         super(AddPatient, self).__init__()
-        uic.loadUi("Receptionist AddPatient.ui",self)
+        uic.loadUi("Screens\Receptionist AddPatient.ui",self)
         self.setWindowTitle("Add Patient")
 
         cursor.execute("""
@@ -389,7 +389,7 @@ class TechnicianMainMenu(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(TechnicianMainMenu, self).__init__()
-        uic.loadUi("Technician MainMenu.ui",self)
+        uic.loadUi("Screens\Technician MainMenu.ui",self)
         self.setWindowTitle("Technician View")
 
         self.pushSearch.clicked.connect(self.searchPatient)
@@ -429,7 +429,7 @@ class UpdatePatient(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(UpdatePatient, self).__init__()
-        uic.loadUi("Technician UpdatePatient.ui",self)
+        uic.loadUi("Screens\Technician UpdatePatient.ui",self)
         self.setWindowTitle("Update Patient")
 
         self.pushUpdate.clicked.connect(self.updatePatient)
@@ -444,7 +444,7 @@ class NurseMainMenu(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(NurseMainMenu, self).__init__()
-        uic.loadUi("Nurse MainMenu.ui",self)
+        uic.loadUi("Screens\\Nurse MainMenu.ui",self)
         self.setWindowTitle("Nurse View")
 
         self.lineDoctorAssigned.setDisabled(True)
@@ -493,7 +493,7 @@ class DoctorMainMenu(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(DoctorMainMenu, self).__init__()
-        uic.loadUi("Doctor MainMenu.ui",self)
+        uic.loadUi("Screens\Doctor MainMenu.ui",self)
         self.setWindowTitle("Doctor View")
 
         self.lineNurseAssigned.setDisabled(True)
@@ -535,7 +535,7 @@ class ViewDetails(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(ViewDetails, self).__init__()
-        uic.loadUi("Doctor ViewDetails.ui",self)
+        uic.loadUi("Screens\Doctor ViewDetails.ui",self)
         self.setWindowTitle("Patient Details")
 
         self.lineMR.setDisabled(True)
@@ -556,7 +556,7 @@ class ViewPastAppointments(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(ViewPastAppointments, self).__init__()
-        uic.loadUi("Doctor PastAppointments.ui",self)
+        uic.loadUi("Screens\Doctor PastAppointments.ui",self)
         self.setWindowTitle("Past Appointments")
 
         self.pushSearch.clicked.connect(self.searchAppointment)
@@ -587,7 +587,7 @@ class UpdateAppointment(QtWidgets.QMainWindow):
     
         def __init__(self):
             super(UpdateAppointment, self).__init__()
-            uic.loadUi("Doctor UpdateAppointment.ui",self)
+            uic.loadUi("Screens\Doctor UpdateAppointment.ui",self)
             self.setWindowTitle("Update Appointment")
     
             self.lineName.setDisabled(True)
@@ -619,7 +619,7 @@ class AdminMainMenu(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(AdminMainMenu, self).__init__()
-        uic.loadUi("Admin MainMenu.ui",self)
+        uic.loadUi("Screens\Admin MainMenu.ui",self)
         self.setWindowTitle("Admin View")
 
         self.comboType.addItems(["Technician", "Receptionist", "Nurse", "Doctor"]) # for testing
@@ -705,7 +705,7 @@ class AddTechnician(QtWidgets.QMainWindow):
     
     def __init__(self):
         super(AddTechnician, self).__init__()
-        uic.loadUi("Admin AddTechnician.ui",self)
+        uic.loadUi("Screens\Admin AddTechnician.ui",self)
         self.setWindowTitle("Add Technician")
 
         self.pushAdd.clicked.connect(self.addTechnician)
@@ -720,7 +720,7 @@ class AddReceptionist(QtWidgets.QMainWindow):
         
     def __init__(self):
         super(AddReceptionist, self).__init__()
-        uic.loadUi("Admin AddReceptionist.ui",self)
+        uic.loadUi("Screens\Admin AddReceptionist.ui",self)
         self.setWindowTitle("Add Receptionist")
 
         self.pushAdd.clicked.connect(self.addReceptionist)
@@ -735,7 +735,7 @@ class AddNurse(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(AddNurse, self).__init__()
-        uic.loadUi("Admin AddNurse.ui",self)
+        uic.loadUi("Screens\Admin AddNurse.ui",self)
         self.setWindowTitle("Add Nurse")
 
         self.pushAdd.clicked.connect(self.addNurse)
@@ -750,7 +750,7 @@ class AddDoctor(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(AddDoctor, self).__init__()
-        uic.loadUi("Admin AddDoctor.ui",self)
+        uic.loadUi("Screens\Admin AddDoctor.ui",self)
         self.setWindowTitle("Add Doctor")
 
         self.pushAdd.clicked.connect(self.addDoctor)
@@ -765,7 +765,7 @@ class UpdateTechnician(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(UpdateTechnician, self).__init__()
-        uic.loadUi("Admin UpdateTechnician.ui",self)
+        uic.loadUi("Screens\Admin UpdateTechnician.ui",self)
         self.setWindowTitle("Update Technician")
 
         self.pushUpdate.clicked.connect(self.updateTechnician)
@@ -780,7 +780,7 @@ class UpdateReceptionist(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(UpdateReceptionist, self).__init__()
-        uic.loadUi("Admin UpdateReceptionist.ui",self)
+        uic.loadUi("Screens\Admin UpdateReceptionist.ui",self)
         self.setWindowTitle("Update Receptionist")
 
         self.pushUpdate.clicked.connect(self.updateReceptionist)
@@ -795,7 +795,7 @@ class UpdateNurse(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(UpdateNurse, self).__init__()
-        uic.loadUi("Admin UpdateNurse.ui",self)
+        uic.loadUi("Screens\Admin UpdateNurse.ui",self)
         self.setWindowTitle("Update Nurse")
 
         self.pushUpdate.clicked.connect(self.updateNurse)
@@ -810,7 +810,7 @@ class UpdateDoctor(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(UpdateDoctor, self).__init__()
-        uic.loadUi("Admin UpdateDoctor.ui",self)
+        uic.loadUi("Screens\Admin UpdateDoctor.ui",self)
         self.setWindowTitle("Update Doctor")
 
         self.pushUpdate.clicked.connect(self.updateDoctor)
