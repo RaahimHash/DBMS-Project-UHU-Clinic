@@ -133,6 +133,11 @@
      </column>
      <column>
       <property name="text">
+       <string>Patient </string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Doctor</string>
       </property>
      </column>
