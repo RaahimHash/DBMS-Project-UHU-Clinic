@@ -89,7 +89,7 @@ class UI(QtWidgets.QMainWindow):
         # cursor.execute(  f'select password from Users where FirstName + ' ' + LastName =  {self.usernameCombo.currentText()} and typeID = ( select typeID from Types where Type = {self.typeCombo.currentText()})')
         #print(cursor.fetchall())
         cursor.execute("select Password from Users where FirstName + ' ' + LastName = '" + str(self.usernameCombo.currentText()) + "'" )#+ " and TypeID = ( select typeID from Types where Type ='" + str(self.typeCombo.currentText()) + "'" )
-        
+
         # print(self.passwordLine.text() , str(cursor.fetchall()[0][0]))
         currentUser = self.usernameCombo.currentText()
         if checkpw(self.passwordLine.text().encode('utf-8'),str(cursor.fetchall()[0][0]).encode('utf-8')): # and it matches the password of the user whose username is selected in the usernameCombo
@@ -184,7 +184,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
             cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR = {str(self.lineMR.text())} and PhoneNum like '%{str(self.linePhone.text())}%'")
 
 	
-	# Fetch all rows and populate the table
+	    # Fetch all rows and populate the table
         for row_index, row_data in enumerate(cursor.fetchall()):
             self.tablewidgetSearch.insertRow(row_index)
             for col_index, cell_data in enumerate(row_data):
@@ -689,9 +689,11 @@ class AdminMainMenu(QtWidgets.QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
-        
-        self.comboType.addItems(["Technician", "Receptionist", "Nurse", "Doctor"]) # for testing
 
+        cursor.execute("select type from Types where TypeID != 4")
+        for i in cursor.fetchall():
+            self.comboType.addItems(i)
+        
         self.pushAddUser.clicked.connect(self.addUser)
         self.pushSearch.clicked.connect(self.searchUser)
         self.pushClearFilters.clicked.connect(self.clearSearchFilters)
@@ -719,8 +721,23 @@ class AdminMainMenu(QtWidgets.QMainWindow):
             self.addDoctorWindow.show()
 
     def searchUser(self):
-        # populate tablewidgetSearch with the results that match the filters
-        pass
+        self.tablewidgetSearch.clearContents()
+        self.tablewidgetSearch.setRowCount(0)
+
+        cursor.execute(f"select FirstName, LastName from Users where FirstName + ' '+ LastName like '%{self.lineName.text()}%' and TypeID in (select TypeID from Types where Type = '{self.comboType.currentText()}')")
+
+        # Fetch all rows and populate the table
+        for row_index, row_data in enumerate(cursor.fetchall()):
+            self.tablewidgetSearch.insertRow(row_index)
+            for col_index, cell_data in enumerate(row_data):
+                item = QTableWidgetItem(str(cell_data))
+                self.tablewidgetSearch.setItem(row_index, col_index, item)
+        
+        # Adjust content display
+        header = self.tablewidgetSearch.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+
 
     def clearSearchFilters(self):
         self.tablewidgetSearch.clearContents()
@@ -729,24 +746,37 @@ class AdminMainMenu(QtWidgets.QMainWindow):
     def updateUser(self):
         row = self.tablewidgetSearch.currentRow()
         type = self.comboType.currentText()
+        
+        if row != -1:
 
-        # if row != -1: # this is the actual condition, the below is just for testing
-        if type == "Technician":
-            self.updateTechnicianWindow = UpdateTechnician()
-            self.updateTechnicianWindow.show()
-        elif type == "Receptionist":
-            self.updateReceptionistWindow = UpdateReceptionist()
-            self.updateReceptionistWindow.show()
-        elif type == "Nurse":
-            self.updateNurseWindow = UpdateNurse()
-            self.updateNurseWindow.show()
-        elif type == "Doctor":
-            self.updateDoctorWindow = UpdateDoctor()
-            self.updateDoctorWindow.show()
+            firstName = self.tablewidgetSearch.item(row,0).text()
+            lastName = self.tablewidgetSearch.item(row,1).text()
+
+            if type == "Technician":
+                self.updateTechnicianWindow = UpdateTechnician(firstName, lastName)
+                self.updateTechnicianWindow.show()
+            elif type == "Receptionist":
+                self.updateReceptionistWindow = UpdateReceptionist()
+                self.updateReceptionistWindow.show()
+            elif type == "Nurse":
+                self.updateNurseWindow = UpdateNurse()
+                self.updateNurseWindow.show()
+            elif type == "Doctor":
+                self.updateDoctorWindow = UpdateDoctor()
+                self.updateDoctorWindow.show()
+
+            self.tablewidgetSearch.setCurrentCell(-1,-1)
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please select a User")
+            self.ErrorWindow.setWindowTitle("Please select a User")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
     def removeUser(self):
         row = self.tablewidgetSearch.currentRow()
-
         if row != -1:
             self.confirmation = QtWidgets.QMessageBox.warning(self, "Confirmation Box", "Are you sure you want to delete this user?", QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
 
@@ -851,7 +881,7 @@ class AddDoctor(QtWidgets.QMainWindow):
 
 class UpdateTechnician(QtWidgets.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, firstName, lastName):
         super(UpdateTechnician, self).__init__()
         uic.loadUi("Screens\Admin UpdateTechnician.ui",self)
         self.setWindowTitle("Update Technician")
@@ -861,11 +891,17 @@ class UpdateTechnician(QtWidgets.QMainWindow):
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
         
+        self.fN = firstName; self.lN = lastName
+
+        self.lineFirstName.setText(self.fN)
+        self.lineLastName.setText(self.lN)
+
         self.pushUpdate.clicked.connect(self.updateTechnician)
         self.pushCancel.clicked.connect(self.close)
 
     def updateTechnician(self):
-        # update the technician's info in the database
+        cursor.execute(f"update Users set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}' where FirstName = '{self.fN}' and LastName = '{self.lN}'")
+        connection.commit()
         self.close()
 
 
@@ -891,11 +927,11 @@ class UpdateReceptionist(QtWidgets.QMainWindow):
 
 class UpdateNurse(QtWidgets.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, row):
         super(UpdateNurse, self).__init__()
         uic.loadUi("Screens\Admin UpdateNurse.ui",self)
         self.setWindowTitle("Update Nurse")
-        
+        # print(self.row)
         # Fixes the screen and Disables Maximize Button
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
@@ -905,7 +941,8 @@ class UpdateNurse(QtWidgets.QMainWindow):
         self.pushCancel.clicked.connect(self.close)
 
     def updateNurse(self):
-        # update the nurse's info in the database
+        print(self.lineFirstName.text())
+        print(self.lineLastName.text())
         self.close()
 
 
@@ -930,7 +967,7 @@ class UpdateDoctor(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv) 
 
-qdarktheme.setup_theme()
+# qdarktheme.setup_theme()
 
 window = UI() 
 window.show()
