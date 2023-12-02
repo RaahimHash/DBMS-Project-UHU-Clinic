@@ -133,7 +133,7 @@
      <rect>
       <x>280</x>
       <y>520</y>
-      <width>121</width>
+      <width>111</width>
       <height>31</height>
      </rect>
     </property>
@@ -146,7 +146,7 @@
      <rect>
       <x>150</x>
       <y>520</y>
-      <width>121</width>
+      <width>111</width>
       <height>31</height>
      </rect>
     </property>
@@ -159,7 +159,7 @@
      <rect>
       <x>20</x>
       <y>520</y>
-      <width>121</width>
+      <width>111</width>
       <height>31</height>
      </rect>
     </property>
@@ -170,9 +170,9 @@
    <widget class="QPushButton" name="pushLogOut">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>520</x>
       <y>520</y>
-      <width>121</width>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>

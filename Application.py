@@ -928,7 +928,7 @@ class UpdateDoctor(QtWidgets.QMainWindow):
 
 app = QtWidgets.QApplication(sys.argv) 
 
-# qdarktheme.setup_theme()
+qdarktheme.setup_theme()
 
 window = UI() 
 window.show()

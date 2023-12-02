@@ -219,7 +219,7 @@
      <rect>
       <x>680</x>
       <y>480</y>
-      <width>101</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -295,9 +295,9 @@
    <widget class="QPushButton" name="pushLogOut">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>820</x>
       <y>480</y>
-      <width>101</width>
+      <width>71</width>
       <height>31</height>
      </rect>
     </property>
