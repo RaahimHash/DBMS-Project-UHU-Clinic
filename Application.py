@@ -12,6 +12,8 @@ server = 'DESKTOP-F3QE491\IBAD'
 database = 'Final_Final_Project'  
 use_windows_authentication = True 
 
+salt = gensalt(rounds=7)
+
 connection = pyodbc.connect(f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;')
 cursor = connection.cursor()
 
@@ -700,7 +702,7 @@ class AdminMainMenu(QtWidgets.QMainWindow):
         self.pushLogOut.clicked.connect(self.relog)
         self.pushUpdateUser.clicked.connect(self.updateUser)
         self.pushRemoveUser.clicked.connect(self.removeUser)
-        self.pushClose.clicked.connect(self.close)
+        # self.pushClose.clicked.connect(self.close)
 
     def addUser(self):
         
@@ -756,13 +758,13 @@ class AdminMainMenu(QtWidgets.QMainWindow):
                 self.updateTechnicianWindow = UpdateTechnician(firstName, lastName)
                 self.updateTechnicianWindow.show()
             elif type == "Receptionist":
-                self.updateReceptionistWindow = UpdateReceptionist()
+                self.updateReceptionistWindow = UpdateReceptionist(firstName, lastName)
                 self.updateReceptionistWindow.show()
             elif type == "Nurse":
-                self.updateNurseWindow = UpdateNurse()
+                self.updateNurseWindow = UpdateNurse(firstName, lastName)
                 self.updateNurseWindow.show()
             elif type == "Doctor":
-                self.updateDoctorWindow = UpdateDoctor()
+                self.updateDoctorWindow = UpdateDoctor(firstName, lastName)
                 self.updateDoctorWindow.show()
 
             self.tablewidgetSearch.setCurrentCell(-1,-1)
@@ -770,8 +772,8 @@ class AdminMainMenu(QtWidgets.QMainWindow):
         else:
             self.ErrorWindow = QtWidgets.QMessageBox()
             self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-            self.ErrorWindow.setText("Please select a User")
-            self.ErrorWindow.setWindowTitle("Please select a User")
+            self.ErrorWindow.setText("Please select a User!")
+            self.ErrorWindow.setWindowTitle("Error!")
             self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
             self.ErrorWindow.exec()
 
@@ -900,14 +902,24 @@ class UpdateTechnician(QtWidgets.QMainWindow):
         self.pushCancel.clicked.connect(self.close)
 
     def updateTechnician(self):
-        cursor.execute(f"update Users set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}' where FirstName = '{self.fN}' and LastName = '{self.lN}'")
-        connection.commit()
-        self.close()
+
+        if str(self.linePassword.text()) != '':
+            cursor.execute(f"update Users set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}', Password = '{hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')}' where FirstName = '{self.fN}' and LastName = '{self.lN}'")
+            connection.commit()
+            self.close()
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please Enter A Password!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
 
 class UpdateReceptionist(QtWidgets.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, firstName, lastName):
         super(UpdateReceptionist, self).__init__()
         uic.loadUi("Screens\Admin UpdateReceptionist.ui",self)
         self.setWindowTitle("Update Receptionist")
@@ -916,18 +928,34 @@ class UpdateReceptionist(QtWidgets.QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
+
+        self.fN = firstName; self.lN = lastName
+
+        self.lineFirstName.setText(self.fN)
+        self.lineLastName.setText(self.lN)
         
         self.pushUpdate.clicked.connect(self.updateReceptionist)
         self.pushCancel.clicked.connect(self.close)
 
     def updateReceptionist(self):
-        # update the receptionist's info in the database
-        self.close()
+
+        if str(self.linePassword.text()) != '':
+            cursor.execute(f"update Users set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}', Password = '{hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')}' where FirstName = '{self.fN}' and LastName = '{self.lN}'")
+            connection.commit()
+            self.close()
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please Enter A Password!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
 
 class UpdateNurse(QtWidgets.QMainWindow):
 
-    def __init__(self, row):
+    def __init__(self, firstName, lastName):
         super(UpdateNurse, self).__init__()
         uic.loadUi("Screens\Admin UpdateNurse.ui",self)
         self.setWindowTitle("Update Nurse")
@@ -936,19 +964,35 @@ class UpdateNurse(QtWidgets.QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
+
+        self.fN = firstName; self.lN = lastName
+
+        self.lineFirstName.setText(self.fN)
+        self.lineLastName.setText(self.lN)
         
         self.pushUpdate.clicked.connect(self.updateNurse)
         self.pushCancel.clicked.connect(self.close)
 
     def updateNurse(self):
-        print(self.lineFirstName.text())
-        print(self.lineLastName.text())
-        self.close()
+  
+        if str(self.linePassword.text()) != '':
+            cursor.execute(f"update Users set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}', Password = '{hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')}' where FirstName = '{self.fN}' and LastName = '{self.lN}'")
+            connection.commit()
+            self.close()
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please Enter A Password!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
+    
 
 
 class UpdateDoctor(QtWidgets.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, firstName, lastName):
         super(UpdateDoctor, self).__init__()
         uic.loadUi("Screens\Admin UpdateDoctor.ui",self)
         self.setWindowTitle("Update Doctor")
@@ -957,13 +1001,44 @@ class UpdateDoctor(QtWidgets.QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
+
+        self.fN = firstName; self.lN = lastName
+
+        self.lineFirstName.setText(self.fN)
+        self.lineLastName.setText(self.lN)
         
+        cursor.execute("select Specialization from Specialization")
+        for u in cursor.fetchall():
+            self.comboSpecialization.addItem(list(u).pop())
+
+        cursor.execute("select RoomName from Rooms")
+        for u in cursor.fetchall():
+            self.comboRoomAssigned.addItem(list(u).pop())
+        
+        cursor.execute("select FirstName + ' ' + LastName from Users where TypeID = 5")
+        for u in cursor.fetchall():
+            self.comboNurseAssigned.addItem(list(u).pop())
+
+
         self.pushUpdate.clicked.connect(self.updateDoctor)
         self.pushCancel.clicked.connect(self.close)
 
     def updateDoctor(self):
-        # update the doctor's info in the database
-        self.close()
+
+        if str(self.linePassword.text()) != '' and str(self.lineCost.text()) != '' and str(self.linePatients.text()) != '' and str(self.linePatients.text()).isnumeric() and str(self.lineCost.text()).isnumeric():
+            cursor.execute(f"update Users set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}', Password = '{hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')}' where FirstName = '{self.fN}' and LastName = '{self.lN}'")
+
+            cursor.execute(f"update Doctors set SpecializationID = (select SpecializationID from Specialization where Specialization = '{self.comboSpecialization.currentText()}'),RoomID = (select RoomID from Rooms where RoomName = '{self.comboRoomAssigned.currentText()}'), NurseID = (select UserID from Users where FirstName + ' ' + LastName = '{self.comboNurseAssigned.currentText()}'), ConsultationCost = {self.lineCost.text()}, NumPatients = {self.linePatients.text()} where DoctorID = (select UserID from Users where TypeID = 2 and FirstName = '{self.fN}' and LastName = '{self.lN}')")
+            connection.commit()
+            self.close()
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please Enter all fields correctly!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
 app = QtWidgets.QApplication(sys.argv) 
 

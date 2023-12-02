@@ -129,6 +129,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
      <property name="readOnly">
       <bool>false</bool>
      </property>
