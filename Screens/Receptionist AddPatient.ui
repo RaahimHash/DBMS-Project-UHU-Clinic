@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>461</width>
-    <height>620</height>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>20</y>
       <width>441</width>
       <height>551</height>
      </rect>
@@ -153,10 +156,10 @@
     <widget class="QPushButton" name="pushAdd">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>510</y>
-       <width>75</width>
-       <height>23</height>
+       <x>254</x>
+       <y>492</y>
+       <width>81</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -166,10 +169,10 @@
     <widget class="QPushButton" name="pushCancel">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>510</y>
-       <width>75</width>
-       <height>23</height>
+       <x>344</x>
+       <y>492</y>
+       <width>81</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -252,9 +255,9 @@ Address:</string>
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>30</y>
+        <y>40</y>
         <width>311</width>
-        <height>31</height>
+        <height>21</height>
        </rect>
       </property>
      </widget>
@@ -264,7 +267,7 @@ Address:</string>
         <x>90</x>
         <y>90</y>
         <width>311</width>
-        <height>31</height>
+        <height>21</height>
        </rect>
       </property>
      </widget>
@@ -280,22 +283,6 @@ Address:</string>
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>461</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuScreen3">
-    <property name="title">
-     <string>Add patient details</string>
-    </property>
-   </widget>
-   <addaction name="menuScreen3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

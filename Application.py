@@ -1,9 +1,10 @@
 # Importing essential modules
-from PyQt6 import QtWidgets, uic
+from PyQt6 import QtWidgets, uic, QtCore 
 from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView
 import sys
 import pyodbc
+import qdarktheme
 
 # server = 'DESKTOP-HT3NB74
 server = 'DESKTOP-F3QE491\IBAD' 
@@ -19,6 +20,11 @@ class UI(QtWidgets.QMainWindow):
         uic.loadUi('Screens\Login Screen.ui', self) 
         self.setWindowTitle("DBClinic")
 
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+
         self.populateType()
         self.populateUsername()
 
@@ -32,7 +38,6 @@ class UI(QtWidgets.QMainWindow):
             self.typeCombo.addItems(i)
 
     def populateUsername(self):
-
         if self.typeCombo.currentText() == 'Doctor':
             self.usernameCombo.clear()
             cursor.execute("""
@@ -82,9 +87,9 @@ class UI(QtWidgets.QMainWindow):
     def signin(self):
         # cursor.execute(  f'select password from Users where FirstName + ' ' + LastName =  {self.usernameCombo.currentText()} and typeID = ( select typeID from Types where Type = {self.typeCombo.currentText()})')
         #print(cursor.fetchall())
-
         cursor.execute("select Password from Users where FirstName + ' ' + LastName = '" + str(self.usernameCombo.currentText()) + "'" )#+ " and TypeID = ( select typeID from Types where Type ='" + str(self.typeCombo.currentText()) + "'" )
         # print(self.passwordLine.text() , str(cursor.fetchall()[0][0]))
+        currentUser = self.usernameCombo.currentText()
         if self.passwordLine.text() == str(cursor.fetchall()[0][0]) : # and it matches the password of the user whose username is selected in the usernameCombo
             if self.typeCombo.currentText() == "Receptionist":
                 self.receptionistscreen = ReceptionistMainMenu()
@@ -92,7 +97,7 @@ class UI(QtWidgets.QMainWindow):
                 self.close()
 
             elif self.typeCombo.currentText() == "Doctor":
-                self.doctorscreen = DoctorMainMenu()
+                self.doctorscreen = DoctorMainMenu(currentUser)
                 self.doctorscreen.show()
                 self.close()
 
@@ -123,8 +128,16 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
     
     def __init__(self):
         super(ReceptionistMainMenu, self).__init__()
+        
         uic.loadUi("Screens\Receptionist MainMenu.ui",self)
         self.setWindowTitle("Receptionist View")
+
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
+
         
         cursor.execute("""
                     select FirstName + ' ' + LastName as UserName from Users
@@ -281,6 +294,11 @@ class BookAppointment(QtWidgets.QMainWindow):
         uic.loadUi("Screens\Receptionist AddAppointment.ui",self)
         self.setWindowTitle("Book Appointment")
 
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         # selected_row=self.tablewidgetSearch.currentRow()
         # if selected_row>=0: 
         #     MrNum=self.tablewidgetSearch.item(selected_row,0).text()
@@ -356,6 +374,11 @@ class AddPatient(QtWidgets.QMainWindow):
         uic.loadUi("Screens\Receptionist AddPatient.ui",self)
         self.setWindowTitle("Add Patient")
 
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         cursor.execute("""
                             select Genders from Gender
                             """)
@@ -393,6 +416,11 @@ class TechnicianMainMenu(QtWidgets.QMainWindow):
         uic.loadUi("Screens\Technician MainMenu.ui",self)
         self.setWindowTitle("Technician View")
 
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushSearch.clicked.connect(self.searchPatient)
         self.pushUpdate.clicked.connect(self.updatePatient)
         self.pushClear.clicked.connect(self.clearSearch)
@@ -432,7 +460,12 @@ class UpdatePatient(QtWidgets.QMainWindow):
         super(UpdatePatient, self).__init__()
         uic.loadUi("Screens\Technician UpdatePatient.ui",self)
         self.setWindowTitle("Update Patient")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushUpdate.clicked.connect(self.updatePatient)
         self.pushCancel.clicked.connect(self.close)
 
@@ -447,7 +480,12 @@ class NurseMainMenu(QtWidgets.QMainWindow):
         super(NurseMainMenu, self).__init__()
         uic.loadUi("Screens\\Nurse MainMenu.ui",self)
         self.setWindowTitle("Nurse View")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.lineDoctorAssigned.setDisabled(True)
         self.lineDoctorAssigned.setText("John Doe") # name of the doctor the nurse is assigned to, comes from query
         self.lineRoomAssigned.setDisabled(True)
@@ -492,13 +530,20 @@ class NurseMainMenu(QtWidgets.QMainWindow):
 
 class DoctorMainMenu(QtWidgets.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, currentUser):
         super(DoctorMainMenu, self).__init__()
         uic.loadUi("Screens\Doctor MainMenu.ui",self)
         self.setWindowTitle("Doctor View")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
+        currentUser = currentUser.split()
+        cursor.execute(f"select FirstName,LastName from Users where UserID in (select NurseID from Doctors where DoctorID in(select UserID from Users where FirstName = '{currentUser[0]}' and LastName = '{currentUser[1]}'))")
         self.lineNurseAssigned.setDisabled(True)
-        self.lineNurseAssigned.setText("Jane Doe") # name of the nurse assigned to the doctor, comes from query
+        self.lineNurseAssigned.setText(" ".join(cursor.fetchall()[0]))
         self.lineMR.setDisabled(True)
         self.lineMR.setText("123456") # MR of the the patient that has an ongoing appointment with the doctor, comes from query
         
@@ -538,7 +583,12 @@ class ViewDetails(QtWidgets.QMainWindow):
         super(ViewDetails, self).__init__()
         uic.loadUi("Screens\Doctor ViewDetails.ui",self)
         self.setWindowTitle("Patient Details")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.lineMR.setDisabled(True)
         self.lineMR.setText("123456") # MR of the the patient that has an ongoing appointment with the doctor, comes from query
         self.lineName.setDisabled(True)
@@ -559,7 +609,12 @@ class ViewPastAppointments(QtWidgets.QMainWindow):
         super(ViewPastAppointments, self).__init__()
         uic.loadUi("Screens\Doctor PastAppointments.ui",self)
         self.setWindowTitle("Past Appointments")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushSearch.clicked.connect(self.searchAppointment)
         self.pushClearFilters.clicked.connect(self.clearSearchFilters)
         self.pushUpdate.clicked.connect(self.updateAppointment)
@@ -590,7 +645,12 @@ class UpdateAppointment(QtWidgets.QMainWindow):
             super(UpdateAppointment, self).__init__()
             uic.loadUi("Screens\Doctor UpdateAppointment.ui",self)
             self.setWindowTitle("Update Appointment")
-    
+            
+            # Fixes the screen and Disables Maximize Button
+            self.width = self.frameGeometry().width()
+            self.height = self.frameGeometry().height()
+            self.setFixedSize(self.width, self.height)
+            
             self.lineName.setDisabled(True)
             self.lineName.setText("John Doe") # name of the the patient that whose row was selected in the search tablewidget, comes from query or just accessing the tablewidget
             self.linePhone.setDisabled(True)
@@ -622,7 +682,12 @@ class AdminMainMenu(QtWidgets.QMainWindow):
         super(AdminMainMenu, self).__init__()
         uic.loadUi("Screens\Admin MainMenu.ui",self)
         self.setWindowTitle("Admin View")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.comboType.addItems(["Technician", "Receptionist", "Nurse", "Doctor"]) # for testing
 
         self.pushAddUser.clicked.connect(self.addUser)
@@ -708,7 +773,12 @@ class AddTechnician(QtWidgets.QMainWindow):
         super(AddTechnician, self).__init__()
         uic.loadUi("Screens\Admin AddTechnician.ui",self)
         self.setWindowTitle("Add Technician")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushAdd.clicked.connect(self.addTechnician)
         self.pushCancel.clicked.connect(self.close)
 
@@ -723,7 +793,12 @@ class AddReceptionist(QtWidgets.QMainWindow):
         super(AddReceptionist, self).__init__()
         uic.loadUi("Screens\Admin AddReceptionist.ui",self)
         self.setWindowTitle("Add Receptionist")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushAdd.clicked.connect(self.addReceptionist)
         self.pushCancel.clicked.connect(self.close)
 
@@ -738,7 +813,12 @@ class AddNurse(QtWidgets.QMainWindow):
         super(AddNurse, self).__init__()
         uic.loadUi("Screens\Admin AddNurse.ui",self)
         self.setWindowTitle("Add Nurse")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushAdd.clicked.connect(self.addNurse)
         self.pushCancel.clicked.connect(self.close)
 
@@ -753,7 +833,12 @@ class AddDoctor(QtWidgets.QMainWindow):
         super(AddDoctor, self).__init__()
         uic.loadUi("Screens\Admin AddDoctor.ui",self)
         self.setWindowTitle("Add Doctor")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushAdd.clicked.connect(self.addDoctor)
         self.pushCancel.clicked.connect(self.close)
 
@@ -768,7 +853,12 @@ class UpdateTechnician(QtWidgets.QMainWindow):
         super(UpdateTechnician, self).__init__()
         uic.loadUi("Screens\Admin UpdateTechnician.ui",self)
         self.setWindowTitle("Update Technician")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushUpdate.clicked.connect(self.updateTechnician)
         self.pushCancel.clicked.connect(self.close)
 
@@ -783,7 +873,12 @@ class UpdateReceptionist(QtWidgets.QMainWindow):
         super(UpdateReceptionist, self).__init__()
         uic.loadUi("Screens\Admin UpdateReceptionist.ui",self)
         self.setWindowTitle("Update Receptionist")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushUpdate.clicked.connect(self.updateReceptionist)
         self.pushCancel.clicked.connect(self.close)
 
@@ -798,7 +893,12 @@ class UpdateNurse(QtWidgets.QMainWindow):
         super(UpdateNurse, self).__init__()
         uic.loadUi("Screens\Admin UpdateNurse.ui",self)
         self.setWindowTitle("Update Nurse")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushUpdate.clicked.connect(self.updateNurse)
         self.pushCancel.clicked.connect(self.close)
 
@@ -813,7 +913,12 @@ class UpdateDoctor(QtWidgets.QMainWindow):
         super(UpdateDoctor, self).__init__()
         uic.loadUi("Screens\Admin UpdateDoctor.ui",self)
         self.setWindowTitle("Update Doctor")
-
+        
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+        
         self.pushUpdate.clicked.connect(self.updateDoctor)
         self.pushCancel.clicked.connect(self.close)
 
@@ -821,8 +926,10 @@ class UpdateDoctor(QtWidgets.QMainWindow):
         # update the doctor's info in the database
         self.close()
 
-
 app = QtWidgets.QApplication(sys.argv) 
+
+# qdarktheme.setup_theme()
+
 window = UI() 
 window.show()
 

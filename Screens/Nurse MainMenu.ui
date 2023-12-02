@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>910</width>
-    <height>560</height>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>10</y>
+      <y>20</y>
       <width>521</width>
       <height>451</height>
      </rect>
@@ -61,7 +64,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
+      <y>100</y>
       <width>341</width>
       <height>401</height>
      </rect>
@@ -214,9 +217,9 @@
    <widget class="QPushButton" name="pushClose">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>470</y>
-      <width>171</width>
+      <x>680</x>
+      <y>480</y>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -228,7 +231,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>20</y>
       <width>341</width>
       <height>81</height>
      </rect>
@@ -292,9 +295,9 @@
    <widget class="QPushButton" name="pushLogOut">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>470</y>
-      <width>121</width>
+      <x>790</x>
+      <y>480</y>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -302,16 +305,6 @@
      <string>Log Out</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>910</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

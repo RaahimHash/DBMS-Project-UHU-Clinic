@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>462</width>
-    <height>303</height>
+    <height>295</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>20</y>
       <width>441</width>
       <height>251</height>
      </rect>
@@ -174,22 +177,6 @@
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>462</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuScreen7">
-    <property name="title">
-     <string>Doctor's information</string>
-    </property>
-   </widget>
-   <addaction name="menuScreen7"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
