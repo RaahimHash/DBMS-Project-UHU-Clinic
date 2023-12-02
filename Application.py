@@ -4,9 +4,9 @@ from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView
 import sys
 import pyodbc
-# example commit karraha hon in my own branch
 
-server = 'DESKTOP-HT3NB74' 
+# server = 'DESKTOP-HT3NB74
+server = 'DESKTOP-F3QE491\IBAD' 
 database = 'Final_Final_Project'  
 use_windows_authentication = True 
 
