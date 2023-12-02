@@ -2,6 +2,7 @@
 from PyQt6 import QtWidgets, uic, QtCore 
 from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView
+from bcrypt import hashpw, checkpw, gensalt # hashing
 import sys
 import pyodbc
 import qdarktheme
@@ -88,9 +89,10 @@ class UI(QtWidgets.QMainWindow):
         # cursor.execute(  f'select password from Users where FirstName + ' ' + LastName =  {self.usernameCombo.currentText()} and typeID = ( select typeID from Types where Type = {self.typeCombo.currentText()})')
         #print(cursor.fetchall())
         cursor.execute("select Password from Users where FirstName + ' ' + LastName = '" + str(self.usernameCombo.currentText()) + "'" )#+ " and TypeID = ( select typeID from Types where Type ='" + str(self.typeCombo.currentText()) + "'" )
+        
         # print(self.passwordLine.text() , str(cursor.fetchall()[0][0]))
         currentUser = self.usernameCombo.currentText()
-        if self.passwordLine.text() == str(cursor.fetchall()[0][0]) : # and it matches the password of the user whose username is selected in the usernameCombo
+        if checkpw(self.passwordLine.text().encode('utf-8'),str(cursor.fetchall()[0][0]).encode('utf-8')): # and it matches the password of the user whose username is selected in the usernameCombo
             if self.typeCombo.currentText() == "Receptionist":
                 self.receptionistscreen = ReceptionistMainMenu()
                 self.receptionistscreen.show()
