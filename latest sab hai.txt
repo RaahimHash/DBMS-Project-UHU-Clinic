@@ -1,12 +1,12 @@
 USE [master]
 GO
-/****** Object:  Database [Final_Final_Project]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Database [Final_Final_Project]    Script Date: 03-Dec-23 4:45:08 AM ******/
 CREATE DATABASE [Final_Final_Project]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'Final_Final_Project', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\Final_Final_Project.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'Final_Final_Project', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.IBAD\MSSQL\DATA\Final_Final_Project.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'Final_Final_Project_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\Final_Final_Project_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'Final_Final_Project_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.IBAD\MSSQL\DATA\Final_Final_Project_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
 GO
 ALTER DATABASE [Final_Final_Project] SET COMPATIBILITY_LEVEL = 160
@@ -84,7 +84,7 @@ ALTER DATABASE [Final_Final_Project] SET QUERY_STORE (OPERATION_MODE = READ_WRIT
 GO
 USE [Final_Final_Project]
 GO
-/****** Object:  Table [dbo].[Appointments]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Appointments]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -95,13 +95,14 @@ CREATE TABLE [dbo].[Appointments](
 	[DoctorID] [int] NULL,
 	[Date] [date] NOT NULL,
 	[StatusID] [int] NOT NULL,
+	[TurnNum] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[AppointmentID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AppointmentSymptoms]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[AppointmentSymptoms]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +117,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Diagnoses]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Diagnoses]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -131,7 +132,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctors]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Doctors]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -142,13 +143,14 @@ CREATE TABLE [dbo].[Doctors](
 	[NurseID] [int] NOT NULL,
 	[RoomID] [int] NOT NULL,
 	[ConsultationCost] [float] NOT NULL,
+	[NumPatients] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[DoctorID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Gender]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Gender]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -162,7 +164,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Invoices]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Invoices]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -179,7 +181,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PatientInfo]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[PatientInfo]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -200,7 +202,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Rooms]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Rooms]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -214,7 +216,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Specialization]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Specialization]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -228,7 +230,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Status]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Status]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -242,7 +244,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Symptoms]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Symptoms]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -256,7 +258,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Types]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Types]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +272,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 01/12/2023 4:05:09 pm ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 03-Dec-23 4:45:08 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -289,47 +291,45 @@ PRIMARY KEY CLUSTERED
 GO
 SET IDENTITY_INSERT [dbo].[Appointments] ON 
 GO
-INSERT [dbo].[Appointments] ([AppointmentID], [MR], [DoctorID], [Date], [StatusID]) VALUES (1, 18, 12, CAST(N'2023-12-12' AS Date), 1)
+INSERT [dbo].[Appointments] ([AppointmentID], [MR], [DoctorID], [Date], [StatusID], [TurnNum]) VALUES (1, 18, 12, CAST(N'2023-12-12' AS Date), 3, 1)
 GO
-INSERT [dbo].[Appointments] ([AppointmentID], [MR], [DoctorID], [Date], [StatusID]) VALUES (3, 22, 12, CAST(N'2023-01-12' AS Date), 1)
+INSERT [dbo].[Appointments] ([AppointmentID], [MR], [DoctorID], [Date], [StatusID], [TurnNum]) VALUES (4, 22, 12, CAST(N'2023-01-12' AS Date), 1, 2)
 GO
-INSERT [dbo].[Appointments] ([AppointmentID], [MR], [DoctorID], [Date], [StatusID]) VALUES (4, 22, 12, CAST(N'2023-01-12' AS Date), 1)
-GO
-INSERT [dbo].[Appointments] ([AppointmentID], [MR], [DoctorID], [Date], [StatusID]) VALUES (5, 19, 12, CAST(N'2023-01-12' AS Date), 1)
+INSERT [dbo].[Appointments] ([AppointmentID], [MR], [DoctorID], [Date], [StatusID], [TurnNum]) VALUES (5, 19, 12, CAST(N'2023-01-12' AS Date), 1, 3)
 GO
 SET IDENTITY_INSERT [dbo].[Appointments] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Doctors] ON 
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (2, 1, 6, 1, 2000)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (2, 5, 20, 1, 5000, 10)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (8, 2, 11, 2, 1000)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (8, 2, 11, 2, 1000, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (12, 1, 16, 3, 15000)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (12, 1, 16, 3, 15000, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (14, 2, 17, 4, 1300)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (14, 2, 17, 4, 1300, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (25, 3, 18, 5, 2100)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (25, 3, 18, 5, 2100, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (26, 3, 19, 6, 1500)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (26, 3, 19, 6, 1500, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (27, 4, 20, 7, 2300)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (27, 4, 20, 7, 2300, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (28, 4, 21, 8, 1100)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (28, 4, 21, 8, 1100, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (29, 5, 22, 9, 1200)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (29, 5, 22, 9, 1200, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (30, 5, 23, 10, 1500)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (30, 5, 23, 10, 1500, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (31, 6, 24, 11, 1600)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (31, 6, 24, 11, 1600, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (32, 7, 38, 12, 800)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (32, 7, 38, 12, 800, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (33, 8, 39, 13, 2100)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (33, 8, 39, 13, 2100, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (34, 6, 37, 14, 2500)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (34, 6, 37, 14, 2500, NULL)
 GO
-INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost]) VALUES (35, 7, 36, 15, 1400)
+INSERT [dbo].[Doctors] ([DoctorID], [SpecializationID], [NurseID], [RoomID], [ConsultationCost], [NumPatients]) VALUES (35, 7, 36, 15, 1400, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Doctors] OFF
 GO
@@ -427,13 +427,55 @@ SET IDENTITY_INSERT [dbo].[Status] ON
 GO
 INSERT [dbo].[Status] ([StatusID], [Status]) VALUES (1, N'Upcoming')
 GO
-INSERT [dbo].[Status] ([StatusID], [Status]) VALUES (2, N'Incomplete')
+INSERT [dbo].[Status] ([StatusID], [Status]) VALUES (2, N'Completed')
 GO
 INSERT [dbo].[Status] ([StatusID], [Status]) VALUES (3, N'Ongoing')
 GO
 INSERT [dbo].[Status] ([StatusID], [Status]) VALUES (4, N'Skipped')
 GO
 SET IDENTITY_INSERT [dbo].[Status] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Symptoms] ON 
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (1, N'Fever')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (2, N'Headache')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (3, N'Fatigue')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (4, N'Cough')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (5, N'Shortness of breath')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (6, N'Sore throat')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (7, N'Muscle aches')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (8, N'Loss of taste or smell')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (9, N'Nausea')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (10, N'Chills')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (11, N'Runny nose')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (12, N'Difficulty sleeping')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (13, N'Joint pain')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (14, N'Dizziness')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (15, N'Stomach pain')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (16, N'Chest pain')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (17, N'Skin rash')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (18, N'Eye redness')
+GO
+INSERT [dbo].[Symptoms] ([SymptomsID], [Symptom]) VALUES (19, N'Excessive sweating')
+GO
+SET IDENTITY_INSERT [dbo].[Symptoms] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Types] ON 
 GO
@@ -451,71 +493,71 @@ SET IDENTITY_INSERT [dbo].[Types] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (2, N'Eman', N'Fatima', N'1234', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (2, N'Eman', N'Fatima', N'$2b$07$iYD91QH6OnWD./UsN6yTm.zSsgwGBtxofyTdp16cpODXIw3X03DDS', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (3, N'Raahim', N'Hashmi', N'4321', 1)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (3, N'Raahim', N'Hashmi', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuvJ4t.JBMXgulkHMr04xNlNB2t/pHVXG', 1)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (5, N'Ibad', N'Nadeem', N'2468', 4)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (5, N'Ibad', N'Nadeem', N'$2b$07$NOCmNEUzDde8NDVQxOXwzu6WhYl0r6CslMhloINCfEwQilBUdBNEa', 4)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (6, N'Fakeha', N'Faisal', N'0786', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (6, N'Fakeha', N'Faisal', N'$2b$07$8OFpVeMHQzOaCfsb15tBEu/DCUocSVPXXO0ihN.DvxCi19RPwSVd.', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (7, N'Ali', N'Ahsan', N'6789', 3)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (7, N'Ali', N'Ahsan', N'$2b$07$8OFpVeMHQzOaCfsb15tBEuc036n3JoKZRGXKVEAafc.h/NHYCt5R2', 3)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (8, N'Shawaiz', N'Khan', N'8243', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (8, N'Shawaiz', N'Khan', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuOA8VicM8K1PdS.O4LgfsCvLlHeuz7Ay', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (11, N'Hania', N'Kashif', N'9821', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (11, N'Hania', N'Kashif', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuYlsmneODD7qSgBNYVmu/GkrLyEa9zZi', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (12, N'Waqar', N'Saleem', N'1212', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (12, N'Waqar', N'Saleem', N'$2b$07$XHPyOVBDYONi/0aMEdPDX.S7Od3Jgx69XMCkIIumSq3WEI1FSxXaK', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (14, N'Ahmed', N'Tariq', N'5678', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (14, N'Ahmed', N'Tariq', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuseoPm5VwDNWH4Jw3LH6G1AL94HedeYq', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (16, N'Shazia', N'Ahmed', N'9810', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (16, N'Shazia', N'Ahmed', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuEG2n4v3fnwkpoashhy9WWUgz92tMjd.', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (17, N'Shumaila', N'Farooq', N'1112', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (17, N'Shumaila', N'Farooq', N'$2b$07$NOCmNEUzDde8NDVQxOXwzu8UzmRK72R1fWFSZ68HHfKGYMp/muVxu', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (18, N'Asma', N'Jawed', N'1213', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (18, N'Asma', N'Jawed', N'$2b$07$NOCmNEUzDde8NDVQxOXwzu0DAfYRs8oz3edl3HAdJuOz3B//amMNu', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (19, N'Asjal', N'Usman', N'1314', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (19, N'Asjal', N'Usman', N'$2b$07$NOCmNEUzDde8NDVQxOXwzu8quN4Lj8vMNiV379l.EipP/ozqN2/L6', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (20, N'Maimoona', N'Qamal', N'1415', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (20, N'Maimoona', N'Qamal', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuJ/30hO0z4.v7wFALfZXXf6jNSz2yBU2', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (21, N'Hamza', N'Khan', N'1516', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (21, N'Hamza', N'Khan', N'$2b$07$NOCmNEUzDde8NDVQxOXwzulnWHp9q.KMaBVrCQaC0ohy8UNBlWdrK', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (22, N'Bismil', N'Faisal', N'1617', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (22, N'Bismil', N'Faisal', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuDDSTGfrbTe1HGBxJufrEK4vRUNhz0t.', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (23, N'Usama', N'Nadeem', N'1718', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (23, N'Usama', N'Nadeem', N'$2b$07$NOCmNEUzDde8NDVQxOXwzu9Bl6RN.JsT./ddAtb4cF.VZxJX5ytwu', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (24, N'Bilal', N'Ahsan', N'1819', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (24, N'Bilal', N'Ahsan', N'$2b$07$NOCmNEUzDde8NDVQxOXwzukbQJzBiHy4NvVDIlS7iLZgIN8w2YCdW', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (25, N'Imran', N'Ali', N'2021', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (25, N'Imran', N'Ali', N'$2b$07$NOCmNEUzDde8NDVQxOXwzukewiiG57B0zBk69XDLca0mwh.el9Bd2', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (26, N'Sana', N'Aslam', N'2223', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (26, N'Sana', N'Aslam', N'$2b$07$NOCmNEUzDde8NDVQxOXwzu0SWpN5tb6kjuUufWuY0J2PJR0NFvfCq', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (27, N'Fatima', N'Ali', N'2425', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (27, N'Fatima', N'Ali', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuPlnuvowtvicB2oS7z.LmHKZz0vMcIiy', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (28, N'Farhan', N'Qureshi', N'2627', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (28, N'Farhan', N'Qureshi', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuN8mTPqHj2O.Pc6TMUsf6B5LMLskMwbm', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (29, N'Nazia', N'Iqbal', N'2829', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (29, N'Nazia', N'Iqbal', N'$2b$07$NOCmNEUzDde8NDVQxOXwzurXM2WnWmL76FQHzgZZmaKkBHh2xU0zW', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (30, N'Sadia', N'Raza', N'2930', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (30, N'Sadia', N'Raza', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuyHuOy6NRqSWEDCcL/ZCyD9h.ULcXmj2', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (31, N'Ahmed', N'Siddique', N'3031', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (31, N'Ahmed', N'Siddique', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuEFy.In1w/Qm70VTyqMZ2lGr9bHvjPDW', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (32, N'Ali', N'Raza', N'3132', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (32, N'Ali', N'Raza', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuUpfAOVmbLkayApJQS1Xi2Vk/nyysWe2', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (33, N'Nida', N'Sheikh', N'3233', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (33, N'Nida', N'Sheikh', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuHlzxdHY0lgZj61ousD3a1iadB6EPIt.', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (34, N'Hira', N'Maliq', N'3435', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (34, N'Hira', N'Maliq', N'$2b$07$NOCmNEUzDde8NDVQxOXwzut/VDYPC4vE2JAf9Yw6CXO1dJuHqFD3W', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (35, N'Usman', N'Akhtar', N'3536', 2)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (35, N'Usman', N'Akhtar', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuVH9g4vgOPhkbJ2CV8hkmcwy.8vJ4ywC', 2)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (36, N'Hassan', N'Rizvi', N'3738', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (36, N'Hassan', N'Rizvi', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuQ/LhrU/WaMEZZURikFyvL02XJTgJl4S', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (37, N'Rabia', N'Abbas', N'3940', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (37, N'Rabia', N'Abbas', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuRydWMLfVdWx43GX2LUGD1PP0P0XCcsm', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (38, N'Samina', N'Shah', N'4041', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (38, N'Samina', N'Shah', N'$2b$07$NOCmNEUzDde8NDVQxOXwzu5vfAs6/HADUVlmv4.cMvc1NO/G1e3dK', 5)
 GO
-INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (39, N'Adnan', N'Ahmed', N'4142', 5)
+INSERT [dbo].[Users] ([UserID], [FirstName], [LastName], [Password], [TypeID]) VALUES (39, N'Adnan', N'Ahmed', N'$2b$07$NOCmNEUzDde8NDVQxOXwzuz1IioIgiemkBWaGVl7thId6n4ck52nK', 5)
 GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO

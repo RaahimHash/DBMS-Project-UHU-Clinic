@@ -987,7 +987,6 @@ class UpdateNurse(QtWidgets.QMainWindow):
             self.ErrorWindow.setWindowTitle("Error!")
             self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
             self.ErrorWindow.exec()
-    
 
 
 class UpdateDoctor(QtWidgets.QMainWindow):
@@ -1046,6 +1045,5 @@ app = QtWidgets.QApplication(sys.argv)
 
 window = UI() 
 window.show()
-
 
 app.exec() 
