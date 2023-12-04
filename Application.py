@@ -5,10 +5,10 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidge
 from bcrypt import hashpw, checkpw, gensalt # hashing
 import sys
 import pyodbc
-# import qdarktheme
+import qdarktheme
 
 server = 'DESKTOP-HT3NB74'
-# server = 'DESKTOP-F3QE491\IBAD' 
+server = 'DESKTOP-F3QE491\IBAD' 
 database = 'Final_Final_Project'  
 use_windows_authentication = True 
 
@@ -156,6 +156,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         self.comboDoctor.setCurrentIndex(0)
         
         self.populateWaitlist()
+        self.searchPatient()
         self.pushAdd.clicked.connect(self.addPatient)
         self.pushSearch.clicked.connect(self.searchPatient)
         self.pushBook.clicked.connect(self.bookAppointment)
@@ -174,9 +175,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
     def searchPatient(self):
         self.tablewidgetSearch.clearContents()
         self.tablewidgetSearch.setRowCount(0)
-        # populate tablewidgetSearch with the results that contain lineMR and linePhone
-        # cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR = {str(self.lineMR.text())} and PhoneNum like '{str(self.linePhone.text())}%'")
-
+       
         if str(self.lineMR.text()).strip() ==  '':
             # print("hello")
             cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where PhoneNum like '%{str(self.linePhone.text())}%'")
@@ -194,10 +193,10 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
                 self.tablewidgetSearch.setItem(row_index, col_index, item)
 
         # Adjust content display
-        # header = self.tablewidgetSearch.horizontalHeader()
-        # header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
-        # header.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
-        # header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
+        header = self.tablewidgetSearch.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
 
     def bookAppointment(self):
         row = self.tablewidgetSearch.currentRow()
@@ -431,25 +430,54 @@ class TechnicianMainMenu(QtWidgets.QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
-        
+
+        self.searchPatient()
         self.pushSearch.clicked.connect(self.searchPatient)
         self.pushUpdate.clicked.connect(self.updatePatient)
         self.pushClear.clicked.connect(self.clearSearch)
         self.pushLogOut.clicked.connect(self.relog)
 
-    def searchPatient(self):
-        # populate tablewidgetSearch with the results that contain lineMR and linePhone
-        pass
+    def searchPatient(self, event = 0):
+        self.tablewidgetSearch.clearContents()
+        self.tablewidgetSearch.setRowCount(0)
+        
+        if str(self.lineMR.text()).strip() ==  '':
+            # print("hello")
+            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where PhoneNum like '%{str(self.linePhone.text())}%'")
+        
+        else:
+            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR like '%{self.lineMR.text()}%' and PhoneNum like '%{str(self.linePhone.text())}%'")
+	
+	    # Fetch all rows and populate the table
+        for row_index, row_data in enumerate(cursor.fetchall()):
+            self.tablewidgetSearch.insertRow(row_index)
+            for col_index, cell_data in enumerate(row_data):
+                item = QTableWidgetItem(str(cell_data))
+                self.tablewidgetSearch.setItem(row_index, col_index, item)
+
+        # Adjust content display
+        header = self.tablewidgetSearch.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
 
     def updatePatient(self):
         row = self.tablewidgetSearch.currentRow()
         
-        # if row != -1: # this is the actual condition, the below is just for testing
-            # self.editPatientWindow = UpdatePatient()
-            # self.editPatientWindow.show()
-         
-        self.editPatientWindow = UpdatePatient()
-        self.editPatientWindow.show()
+        if row != -1:
+
+            MR = self.tablewidgetSearch.item(row,0).text()
+            self.editPatientWindow = UpdatePatient(MR)
+            self.editPatientWindow.show()
+            self.editPatientWindow.closeEvent = self.searchPatient()
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please select a patient to update.")
+            self.ErrorWindow.setWindowTitle("Please select a patient.")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
     def clearSearch(self):
         self.tablewidgetSearch.clearContents()
@@ -467,7 +495,7 @@ class TechnicianMainMenu(QtWidgets.QMainWindow):
 
 class UpdatePatient(QtWidgets.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, MR):
         super(UpdatePatient, self).__init__()
         uic.loadUi("Screens\Technician UpdatePatient.ui",self)
         self.setWindowTitle("Update Patient")
@@ -476,13 +504,50 @@ class UpdatePatient(QtWidgets.QMainWindow):
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
+
+        self.MRNo = MR;
+
+        cursor.execute(f"SELECT * FROM PatientInfo where MR = '{self.MRNo}'")
+        lst = cursor.fetchall()
+        self.firstName = lst[0][1]
+        self.lastName = lst[0][2]
+        self.phone = lst[0][3]
+        self.date = lst[0][4]
+        self.gender = lst[0][5]
+        self.cnic = lst[0][6]
+        self.age = lst[0][7]
+        self.street, self.city = lst[0][8].split(", ")
+        self.lineFirstName.setText(self.firstName)
+        self.lineLastName.setText(self.lastName)
+        self.linePhone.setText(self.phone)
+        self.lineCNIC.setText(self.cnic)
+
+        cursor.execute("select Genders from Gender")
+        for u in cursor:
+            self.comboGender.addItem(list(u).pop())
         
+        self.lineStreet.setText(self.street)
+        self.lineCity.setText(self.city)
+
         self.pushUpdate.clicked.connect(self.updatePatient)
         self.pushCancel.clicked.connect(self.close)
 
     def updatePatient(self):
-        # update the patient's info in the database
-        self.close()
+        
+        if str(self.lineFirstName.text()) != '' and str(self.lineLastName.text()) != '' and str(self.linePhone.text()) != '' and str(self.lineFirstName.text()) != '' and str(self.lineCNIC.text()) != '' and str(self.lineStreet.text()) != '' and str(self.lineCity.text()) != '':
+
+            cursor.execute(f"update PatientInfo set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}', PhoneNum = '{self.linePhone.text()}', DateOfBirth = '{self.dateEdit.text()}', GenderID = (select GenderID from Gender where Genders = '{self.comboGender.currentText()}'), CNIC = '{self.lineCNIC.text()}', Age = datediff(year, '{self.dateEdit.text()}', getdate()), Address = '{self.lineStreet.text() + ', '+ self.lineCity.text()}' where MR = {self.MRNo}")
+
+            connection.commit()
+            self.close()
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please enter all fields correctly!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
 
 class NurseMainMenu(QtWidgets.QMainWindow):
@@ -703,6 +768,8 @@ class AdminMainMenu(QtWidgets.QMainWindow):
         for i in cursor.fetchall():
             self.comboType.addItems(i)
         
+        self.tablewidgetSearch.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.searchUser()
         self.pushAddUser.clicked.connect(self.addUser)
         self.pushSearch.clicked.connect(self.searchUser)
         self.pushClearFilters.clicked.connect(self.clearSearchFilters)
@@ -717,19 +784,31 @@ class AdminMainMenu(QtWidgets.QMainWindow):
             self.addTechnicianWindow = AddTechnician()
             self.addTechnicianWindow.show()
 
+            self.addTechnicianWindow.closeEvent = self.searchUser
+
         elif self.comboType.currentText() == "Receptionist":
             self.addReceptionistWindow = AddReceptionist()
             self.addReceptionistWindow.show()
+
+            self.addReceptionistWindow.closeEvent = self.searchUser
+
 
         elif self.comboType.currentText() == "Nurse":
             self.addNurseWindow = AddNurse()
             self.addNurseWindow.show()
 
+            self.addNurseWindow.closeEvent = self.searchUser
+
+        
         elif self.comboType.currentText() == "Doctor":
             self.addDoctorWindow = AddDoctor()
             self.addDoctorWindow.show()
 
-    def searchUser(self):
+            self.addDoctorWindow.closeEvent = self.searchUser
+
+
+    def searchUser(self, event = None):
+        # print('a')
         self.tablewidgetSearch.clearContents()
         self.tablewidgetSearch.setRowCount(0)
 
@@ -751,6 +830,22 @@ class AdminMainMenu(QtWidgets.QMainWindow):
     def clearSearchFilters(self):
         self.tablewidgetSearch.clearContents()
         # repopulate with all users
+        self.tablewidgetSearch.clearContents()
+        self.tablewidgetSearch.setRowCount(0)
+
+        cursor.execute(f"select FirstName, LastName from Users where FirstName + ' '+ LastName like '%{self.lineName.text()}%' and TypeID in (select TypeID from Types where Type = '{self.comboType.currentText()}')")
+
+        # Fetch all rows and populate the table
+        for row_index, row_data in enumerate(cursor.fetchall()):
+            self.tablewidgetSearch.insertRow(row_index)
+            for col_index, cell_data in enumerate(row_data):
+                item = QTableWidgetItem(str(cell_data))
+                self.tablewidgetSearch.setItem(row_index, col_index, item)
+        
+        # Adjust content display
+        header = self.tablewidgetSearch.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
 
     def updateUser(self):
         row = self.tablewidgetSearch.currentRow()
@@ -764,16 +859,27 @@ class AdminMainMenu(QtWidgets.QMainWindow):
             if type == "Technician":
                 self.updateTechnicianWindow = UpdateTechnician(firstName, lastName)
                 self.updateTechnicianWindow.show()
+
+                self.updateTechnicianWindow.closeEvent = self.searchUser
+                
             elif type == "Receptionist":
                 self.updateReceptionistWindow = UpdateReceptionist(firstName, lastName)
                 self.updateReceptionistWindow.show()
+
+                self.updateReceptionistWindow.closeEvent = self.searchUser
+
             elif type == "Nurse":
                 self.updateNurseWindow = UpdateNurse(firstName, lastName)
                 self.updateNurseWindow.show()
+
+                self.updateNurseWindow.closeEvent = self.searchUser
+
             elif type == "Doctor":
                 self.updateDoctorWindow = UpdateDoctor(firstName, lastName)
                 self.updateDoctorWindow.show()
 
+                self.updateDoctorWindow.closeEvent = self.searchUser
+        
             self.tablewidgetSearch.setCurrentCell(-1,-1)
 
         else:
@@ -824,21 +930,28 @@ class AddTechnician(QtWidgets.QMainWindow):
         self.pushCancel.clicked.connect(self.close)
 
     def addTechnician(self):
-        print(self.lineFirstName.text())
-        print(self.lineLastName.text())
-        print(hashpw(self.linePassword.text().encode('utf8'), salt))
+
+        firstname = self.lineFirstName.text()
+        lastname = self.lineLastName.text()
+        password = hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')
+        if firstname != '' and lastname != '' and self.linePassword.text() != '':
+
+            new_technician = (firstname, lastname, password, 3)
+            insertTechnician  = f"insert into Users (FirstName, LastName, Password, TypeID) values (?, ?, ?, ?)"
+            
+            cursor.execute(insertTechnician, new_technician)
+            connection.commit()
+
+            self.close()
         
-#         new_patient = (firstname, lastname, phone, datee, cursor.fetchall()[0][0], cnic, address)
-
-#         insertPatient =  f"INSERT INTO patientInfo (FirstName, LastName, PhoneNum, DateOfBirth,GenderID, CNIC, Address) VALUES (?, ?, ?, ?, ?, ?, ?)"
-#         cursor.execute(insertPatient, new_patient)
-#         # connection.commit()
-# #         insert into Users
-# # values ('dfs','fds','fsf',3)
-
-
-        self.close()
-
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please enter all fields correctly!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
+        
 
 class AddReceptionist(QtWidgets.QMainWindow):
         
@@ -856,8 +969,28 @@ class AddReceptionist(QtWidgets.QMainWindow):
         self.pushCancel.clicked.connect(self.close)
 
     def addReceptionist(self):
-        # insert into users table
-        self.close()
+
+        firstname = self.lineFirstName.text()
+        lastname = self.lineLastName.text()
+        password = hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')
+
+        if firstname != '' and lastname != '' and self.linePassword.text() != '':
+    
+            new_rec = (firstname, lastname, password, 1)
+            insertRec  = f"insert into Users (FirstName, LastName, Password, TypeID) values (?, ?, ?, ?)"
+            
+            cursor.execute(insertRec, new_rec)
+            connection.commit()
+
+            self.close()
+        
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please enter all fields correctly!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
 
 class AddNurse(QtWidgets.QMainWindow):
@@ -876,8 +1009,27 @@ class AddNurse(QtWidgets.QMainWindow):
         self.pushCancel.clicked.connect(self.close)
 
     def addNurse(self):
-        # insert into users table
-        self.close()
+        
+        firstname = self.lineFirstName.text()
+        lastname = self.lineLastName.text()
+        password = hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')
+
+        if firstname != '' and lastname != '' and self.linePassword.text() != '':
+
+            new_nurse = (firstname, lastname, password, 5)
+            insertNurse  = f"insert into Users (FirstName, LastName, Password, TypeID) values (?, ?, ?, ?)"
+            
+            cursor.execute(insertNurse, new_nurse)
+            connection.commit()
+
+            self.close()
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please enter all fields correctly!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
 
 class AddDoctor(QtWidgets.QMainWindow):
@@ -892,12 +1044,76 @@ class AddDoctor(QtWidgets.QMainWindow):
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
         
+        cursor.execute("select Specialization from Specialization")
+        for u in cursor.fetchall():
+            self.comboSpecialization.addItem(list(u).pop())
+
+        cursor.execute("select RoomName from Rooms")
+        for u in cursor.fetchall():
+            self.comboRoomAssigned.addItem(list(u).pop())
+        
+        cursor.execute("select FirstName + ' ' + LastName from Users where TypeID = 5")
+        for u in cursor.fetchall():
+            self.comboNurseAssigned.addItem(list(u).pop())
+
         self.pushAdd.clicked.connect(self.addDoctor)
         self.pushCancel.clicked.connect(self.close)
 
     def addDoctor(self):
-        # insert into users table
-        self.close()
+
+        def isfloat(num):
+            try:
+                float(num)
+                return True
+            except ValueError:
+                return False
+
+        firstname = self.lineFirstName.text()
+        lastname = self.lineLastName.text()
+        password = hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')
+        specialization = self.comboSpecialization.currentText()
+        room = self.comboRoomAssigned.currentText()
+        nurse = self.comboNurseAssigned.currentText()
+        cost = self.lineCost.text()
+        patients = self.linePatients.text()
+
+        if firstname != '' and lastname != '' and self.linePassword.text() != '' and isfloat(cost) and patients.isnumeric():
+            
+            new_Udoctor = (firstname, lastname, password, 2)
+            insertUDoctor  = "insert into Users (FirstName, LastName, Password, TypeID) values (?, ?, ?, ?)"
+
+            cursor.execute(insertUDoctor, new_Udoctor)
+            connection.commit()
+
+            new_doctor = tuple()
+
+            cursor.execute("select max(UserID) from  Users")
+            new_doctor += tuple(cursor.fetchall()[0])
+            
+            cursor.execute(f"select SpecializationID from Specialization where Specialization = '{specialization}'")
+            new_doctor += tuple(cursor.fetchall()[0])
+
+            cursor.execute(f"select UserID from Users where FirstName = '{nurse.split()[0]}' and LastName = '{nurse.split()[1]}'")
+            new_doctor += tuple(cursor.fetchall()[0])
+
+            cursor.execute(f"select RoomID from Rooms where RoomName = '{room}'")
+            new_doctor += tuple(cursor.fetchall()[0])
+
+            new_doctor += (float(cost), int(patients))
+
+            insertDoctor = "insert into Doctors (DoctorID, SpecializationID, NurseID, RoomID, ConsultationCost, NumPatients) values (?, ?, ?, ?, ?, ?)"
+            cursor.execute(insertDoctor, new_doctor)
+
+            connection.commit()
+            self.close()
+
+        else:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("Please enter all fields correctly!")
+            self.ErrorWindow.setWindowTitle("Error!")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
 
 
 class UpdateTechnician(QtWidgets.QMainWindow):
@@ -1037,30 +1253,36 @@ class UpdateDoctor(QtWidgets.QMainWindow):
         for u in cursor.fetchall():
             self.comboNurseAssigned.addItem(list(u).pop())
 
+        cursor.execute(f"select ConsultationCost, NumPatients from Doctors where DoctorID in (select UserID from Users where FirstName = '{self.fN}' and LastName = '{self.lN}')")
+        for u in cursor.fetchall():
+            self.lineCost.setText(str(u[0]))
+            self.linePatients.setText(str(u[1]))
 
         self.pushUpdate.clicked.connect(self.updateDoctor)
         self.pushCancel.clicked.connect(self.close)
 
     def updateDoctor(self):
+        
+        if str(self.linePassword.text()) != '' and str(self.linePatients.text()).isnumeric():
 
-        if str(self.linePassword.text()) != '' and str(self.lineCost.text()) != '' and str(self.linePatients.text()) != '' and str(self.linePatients.text()).isnumeric() and str(self.lineCost.text()).isnumeric():
             cursor.execute(f"update Users set FirstName = '{self.lineFirstName.text()}', LastName = '{self.lineLastName.text()}', Password = '{hashpw(self.linePassword.text().encode('utf8'), salt).decode('utf8')}' where FirstName = '{self.fN}' and LastName = '{self.lN}'")
 
             cursor.execute(f"update Doctors set SpecializationID = (select SpecializationID from Specialization where Specialization = '{self.comboSpecialization.currentText()}'),RoomID = (select RoomID from Rooms where RoomName = '{self.comboRoomAssigned.currentText()}'), NurseID = (select UserID from Users where FirstName + ' ' + LastName = '{self.comboNurseAssigned.currentText()}'), ConsultationCost = {self.lineCost.text()}, NumPatients = {self.linePatients.text()} where DoctorID = (select UserID from Users where TypeID = 2 and FirstName = '{self.fN}' and LastName = '{self.lN}')")
+
             connection.commit()
             self.close()
 
         else:
             self.ErrorWindow = QtWidgets.QMessageBox()
             self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-            self.ErrorWindow.setText("Please Enter all fields correctly!")
+            self.ErrorWindow.setText("Please enter all fields correctly!")
             self.ErrorWindow.setWindowTitle("Error!")
             self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
             self.ErrorWindow.exec()
 
 app = QtWidgets.QApplication(sys.argv) 
 
-# qdarktheme.setup_theme()
+qdarktheme.setup_theme()
 
 window = UI() 
 window.show()
