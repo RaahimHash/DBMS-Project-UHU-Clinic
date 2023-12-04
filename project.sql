@@ -140,8 +140,8 @@ GO
 CREATE TABLE [dbo].[Doctors](
 	[DoctorID] [int] NOT NULL,
 	[SpecializationID] [int] NOT NULL,
-	[NurseID] [int] NOT NULL,
-	[RoomID] [int] NOT NULL,
+	[NurseID] [int] NULL,
+	[RoomID] [int] NULL,
 	[ConsultationCost] [float] NOT NULL,
 	[NumPatients] [int] NULL,
 PRIMARY KEY CLUSTERED 
