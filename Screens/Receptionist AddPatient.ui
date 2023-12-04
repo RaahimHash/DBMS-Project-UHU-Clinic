@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>461</width>
-    <height>592</height>
+    <height>493</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,7 +108,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>260</y>
+       <y>218</y>
        <width>47</width>
        <height>13</height>
       </rect>
@@ -121,23 +121,10 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>260</y>
+       <y>218</y>
        <width>311</width>
        <height>22</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>220</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Age: </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
@@ -157,7 +144,7 @@
      <property name="geometry">
       <rect>
        <x>254</x>
-       <y>492</y>
+       <y>420</y>
        <width>81</width>
        <height>31</height>
       </rect>
@@ -170,7 +157,7 @@
      <property name="geometry">
       <rect>
        <x>344</x>
-       <y>492</y>
+       <y>420</y>
        <width>81</width>
        <height>31</height>
       </rect>
@@ -202,23 +189,13 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineAge">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>220</y>
-       <width>311</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>258</y>
        <width>421</width>
-       <height>161</height>
+       <height>121</height>
       </rect>
      </property>
      <property name="title">
@@ -227,8 +204,8 @@
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>30</y>
+        <x>20</x>
+        <y>20</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -242,7 +219,7 @@ Address:</string>
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>90</y>
+        <y>80</y>
         <width>81</width>
         <height>21</height>
        </rect>
@@ -255,7 +232,7 @@ Address:</string>
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>40</y>
+        <y>30</y>
         <width>311</width>
         <height>21</height>
        </rect>
@@ -265,7 +242,7 @@ Address:</string>
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>90</y>
+        <y>80</y>
         <width>311</width>
         <height>21</height>
        </rect>

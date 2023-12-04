@@ -5,10 +5,10 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidge
 from bcrypt import hashpw, checkpw, gensalt # hashing
 import sys
 import pyodbc
-import qdarktheme
+# import qdarktheme
 
-# server = 'DESKTOP-HT3NB74
-server = 'DESKTOP-F3QE491\IBAD' 
+server = 'DESKTOP-HT3NB74'
+# server = 'DESKTOP-F3QE491\IBAD' 
 database = 'Final_Final_Project'  
 use_windows_authentication = True 
 
@@ -183,7 +183,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         
 
         else:
-            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR = {str(self.lineMR.text())} and PhoneNum like '%{str(self.linePhone.text())}%'")
+            cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR like '%{self.lineMR.text()}%' and PhoneNum like '%{str(self.linePhone.text())}%'")
 
 	
 	    # Fetch all rows and populate the table
@@ -264,7 +264,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
                 # NEEDS TO BE EDITED WITH THE TURN NUMBER SO IT DOESN'T DELETE MULTIPLE APPOINTMENTS
                 cursor.execute (f'''
                 DELETE FROM Appointments 
-                WHERE MR = {int(self.tablewidgetWaitlist.item(row,0).text())} AND Date = '{self.tablewidgetWaitlist.item(row,4).text()}'
+                WHERE MR = {self.tablewidgetWaitlist.item(row,0).text()} AND Date = '{self.tablewidgetWaitlist.item(row,4).text()}'
                 ''')
                 connection.commit()
 
@@ -399,17 +399,24 @@ class AddPatient(QtWidgets.QMainWindow):
         phone = self.linePhone.text()
         cnic = self.lineCNIC.text()
         datee = "-".join(self.date.text().split('/')[::-1])
-        age = self.lineAge.text()
+        # age = self.lineAge.text()
         gender = self.comboGender.currentText()
         street = self.lineStreet.text()
         city = self.lineCity.text()
         address = street+", "+city
         cursor.execute(f"select GenderID from Gender where Genders = '{gender}'")
 
-        new_patient = (firstname, lastname, phone, datee, cursor.fetchall()[0][0], cnic, age, address)
+        new_patient = (firstname, lastname, phone, datee, cursor.fetchall()[0][0], cnic, address)
 
-        insertPatient =  f"INSERT INTO patientInfo (FirstName, LastName, PhoneNum, DateOfBirth,GenderID, CNIC, Age, Address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+        insertPatient =  f"INSERT INTO patientInfo (FirstName, LastName, PhoneNum, DateOfBirth,GenderID, CNIC, Address) VALUES (?, ?, ?, ?, ?, ?, ?)"
         cursor.execute(insertPatient, new_patient)
+        # connection.commit()
+        cursor.execute("update PatientInfo set MR = str(PatientID) where PatientID = (select max(PatientID) from PatientInfo)")
+        # connection.commit()
+
+        cursor.execute("update PatientInfo set Age = datediff(year, DateOfBirth, getdate()) where PatientID = (select max(PatientID) from PatientInfo)")
+
+
         connection.commit()
         self.close()
 
@@ -817,7 +824,19 @@ class AddTechnician(QtWidgets.QMainWindow):
         self.pushCancel.clicked.connect(self.close)
 
     def addTechnician(self):
-        # insert into users table
+        print(self.lineFirstName.text())
+        print(self.lineLastName.text())
+        print(hashpw(self.linePassword.text().encode('utf8'), salt))
+        
+#         new_patient = (firstname, lastname, phone, datee, cursor.fetchall()[0][0], cnic, address)
+
+#         insertPatient =  f"INSERT INTO patientInfo (FirstName, LastName, PhoneNum, DateOfBirth,GenderID, CNIC, Address) VALUES (?, ?, ?, ?, ?, ?, ?)"
+#         cursor.execute(insertPatient, new_patient)
+#         # connection.commit()
+# #         insert into Users
+# # values ('dfs','fds','fsf',3)
+
+
         self.close()
 
 
