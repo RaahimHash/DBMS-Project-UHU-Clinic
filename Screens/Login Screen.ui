@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>466</width>
-    <height>405</height>
+    <height>386</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,7 +46,7 @@
    <widget class="QPushButton" name="signinButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>340</x>
       <y>300</y>
       <width>81</width>
       <height>31</height>
@@ -129,19 +129,6 @@
       <width>301</width>
       <height>21</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="passwordButton">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>342</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Change Password</string>
     </property>
    </widget>
   </widget>
