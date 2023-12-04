@@ -5,10 +5,10 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidge
 from bcrypt import hashpw, checkpw, gensalt # hashing
 import sys
 import pyodbc
-import qdarktheme
+# import qdarktheme
 
-# server = 'DESKTOP-HT3NB74
-server = 'DESKTOP-F3QE491\IBAD' 
+server = 'DESKTOP-HT3NB74'
+# server = 'DESKTOP-F3QE491\IBAD' 
 database = 'Final_Final_Project'  
 use_windows_authentication = True 
 
