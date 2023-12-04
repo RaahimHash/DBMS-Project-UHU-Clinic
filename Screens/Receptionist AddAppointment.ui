@@ -88,7 +88,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Phone#:</string>
+      <string>MR:</string>
      </property>
     </widget>
    </widget>
@@ -157,7 +157,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="linePhone">
+   <widget class="QLineEdit" name="lineMR">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -228,6 +228,35 @@
       </rect>
      </property>
     </widget>
+<<<<<<< Updated upstream
+=======
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Current Turn:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineCurrentPatient">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>100</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+>>>>>>> Stashed changes
    </widget>
    <widget class="QPushButton" name="pushCancel">
     <property name="geometry">
@@ -288,6 +317,12 @@
        <width>221</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="displayFormat">
+      <string>MM/dd/yyyy</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>

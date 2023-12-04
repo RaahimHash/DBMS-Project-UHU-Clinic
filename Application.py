@@ -5,7 +5,13 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidge
 import sys
 import pyodbc
 
+<<<<<<< Updated upstream
 server = 'DESKTOP-HT3NB74' 
+=======
+# server = 'DESKTOP-HT3NB74 # Eman
+# server = 'DESKTOP-F3QE491\IBAD' # Ibad
+server = 'DESKTOP-QNMUBSC\DBSFALL23' # Raahim
+>>>>>>> Stashed changes
 database = 'Final_Final_Project'  
 use_windows_authentication = True 
 
@@ -79,12 +85,20 @@ class UI(QtWidgets.QMainWindow):
         self.usernameCombo.setCurrentIndex(0)
 
     def signin(self):
+<<<<<<< Updated upstream
         # cursor.execute(  f'select password from Users where FirstName + ' ' + LastName =  {self.usernameCombo.currentText()} and typeID = ( select typeID from Types where Type = {self.typeCombo.currentText()})')
         #print(cursor.fetchall())
 
         cursor.execute("select Password from Users where FirstName + ' ' + LastName = '" + str(self.usernameCombo.currentText()) + "'" )#+ " and TypeID = ( select typeID from Types where Type ='" + str(self.typeCombo.currentText()) + "'" )
         # print(self.passwordLine.text() , str(cursor.fetchall()[0][0]))
         if self.passwordLine.text() == str(cursor.fetchall()[0][0]) : # and it matches the password of the user whose username is selected in the usernameCombo
+=======
+        
+        cursor.execute("select Password from Users where FirstName + ' ' + LastName = '" + str(self.usernameCombo.currentText()) + "'" )
+
+        currentUser = self.usernameCombo.currentText()
+        if checkpw(self.passwordLine.text().encode('utf-8'),str(cursor.fetchall()[0][0]).encode('utf-8')): # and it matches the password of the user whose username is selected in the usernameCombo
+>>>>>>> Stashed changes
             if self.typeCombo.currentText() == "Receptionist":
                 self.receptionistscreen = ReceptionistMainMenu()
                 self.receptionistscreen.show()
@@ -124,18 +138,28 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         super(ReceptionistMainMenu, self).__init__()
         uic.loadUi("Screens\Receptionist MainMenu.ui",self)
         self.setWindowTitle("Receptionist View")
+<<<<<<< Updated upstream
+=======
+
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+>>>>>>> Stashed changes
         
         cursor.execute("""
                     select FirstName + ' ' + LastName as UserName from Users
                     where TypeID in (
                     select TypeID from Types
-                    where type = 'Doctor')""")
+                    where type = 'Doctor')
+                    """)
                     
         self.comboDoctor.addItems(('',))
         for i in cursor.fetchall():
             self.comboDoctor.addItems(i)
         
         self.comboDoctor.setCurrentIndex(0)
+        self.dateEdit.setMinimumDate(QDate.currentDate())
         
         self.populateWaitlist()
         self.pushAdd.clicked.connect(self.addPatient)
@@ -157,13 +181,10 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         self.tablewidgetSearch.clearContents()
         self.tablewidgetSearch.setRowCount(0)
         # populate tablewidgetSearch with the results that contain lineMR and linePhone
-        # cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR = {str(self.lineMR.text())} and PhoneNum like '{str(self.linePhone.text())}%'")
 
         if str(self.lineMR.text()).strip() ==  '':
-            # print("hello")
             cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where PhoneNum like '%{str(self.linePhone.text())}%'")
         
-
         else:
             cursor.execute(f"SELECT MR, FirstName + ' ' + LastName as Name, PhoneNum FROM PatientInfo where MR = {str(self.lineMR.text())} and PhoneNum like '%{str(self.linePhone.text())}%'")
 
@@ -185,10 +206,10 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         row = self.tablewidgetSearch.currentRow()
         
         if row != -1:
+            MR = self.tablewidgetSearch.item(row,0).text()
             Name = self.tablewidgetSearch.item(row,1).text()
-            Phone = self.tablewidgetSearch.item(row,2).text()
 
-            self.bookAppointmentWindow = BookAppointment(Name,Phone)
+            self.bookAppointmentWindow = BookAppointment(Name,MR)
             self.bookAppointmentWindow.show()
 
         else:
@@ -208,10 +229,12 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         self.tablewidgetWaitlist.clearContents()
         self.tablewidgetWaitlist.setRowCount(0)
 
+        date = self.dateEdit.date().toString("yyyy-MM-dd")
+
         if self.comboDoctor.currentText().strip() == '':
-            cursor.execute(f"SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName as Doctor, R.RoomName, A.Date FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND A.Date = '{self.dateEdit.text()}' AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
+            cursor.execute(f"SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName as Doctor, R.RoomName, A.Date, A.TurnNum FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND A.Date = '{date}' AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
         else:
-            cursor.execute(f"SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName, R.RoomName, A.Date FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND A.Date = '{self.dateEdit.text()}' AND U.FirstName + ' ' + U.LastName = '{self.comboDoctor.currentText()}' AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
+            cursor.execute(f"SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName, R.RoomName, A.Date, A.TurnNum FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND A.Date = '{date}' AND U.FirstName + ' ' + U.LastName = '{self.comboDoctor.currentText()}' AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
 
         # Fetch all rows and populate the table
         for row_index, row_data in enumerate(cursor.fetchall()):
@@ -225,7 +248,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         self.tablewidgetWaitlist.clearContents()
         self.tablewidgetWaitlist.setRowCount(0)
 
-        cursor.execute("SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName as Doctor, R.RoomName, A.Date FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND DATEPART(DY, A.Date) >= DATEPART(DY,GETDATE()) AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
+        cursor.execute("SELECT P.MR, P.FirstName + ' ' + P.LastName as Patient, U.FirstName + ' ' + U.LastName as Doctor, R.RoomName, A.Date, A.TurnNum FROM Appointments A, Users U, PatientInfo P, Doctors D, Rooms R, Status S WHERE A.MR = P.MR AND A.DoctorID = U.UserID AND A.DoctorID = D.DoctorID AND D.RoomID = R.RoomID AND DATEPART(DY, A.Date) >= DATEPART(DY,GETDATE()) AND A.StatusID = S.StatusID AND S.Status = 'Upcoming' ORDER BY A.Date ASC")
 
         # Fetch all rows and populate the table
         for row_index, row_data in enumerate(cursor.fetchall()):
@@ -246,7 +269,7 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
                 # NEEDS TO BE EDITED WITH THE TURN NUMBER SO IT DOESN'T DELETE MULTIPLE APPOINTMENTS
                 cursor.execute (f'''
                 DELETE FROM Appointments 
-                WHERE MR = {int(self.tablewidgetWaitlist.item(row,0).text())} AND Date = '{self.tablewidgetWaitlist.item(row,4).text()}'
+                WHERE MR = {int(self.tablewidgetWaitlist.item(row,0).text())} AND Date = '{self.tablewidgetWaitlist.item(row,4).text()}' AND TurnNum = {int(self.tablewidgetWaitlist.item(row,5).text())}
                 ''')
                 connection.commit()
 
@@ -271,15 +294,14 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
             pass
 
 
-
-
 class BookAppointment(QtWidgets.QMainWindow):
     
-    def __init__(self, Name, Phone):
+    def __init__(self, Name, MR):
         super(BookAppointment, self).__init__()
         uic.loadUi("Screens\Receptionist AddAppointment.ui",self)
         self.setWindowTitle("Book Appointment")
 
+<<<<<<< Updated upstream
         # selected_row=self.tablewidgetSearch.currentRow()
         # if selected_row>=0: 
         #     MrNum=self.tablewidgetSearch.item(selected_row,0).text()
@@ -291,6 +313,12 @@ class BookAppointment(QtWidgets.QMainWindow):
 
             # self.view_Form=BookAppointment(MrNum, patientName,patientPhone)
             # self.view_Form.show()
+=======
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+>>>>>>> Stashed changes
 
         firstName = Name.split()[0]
         lastName = Name.split()[-1]
@@ -299,14 +327,20 @@ class BookAppointment(QtWidgets.QMainWindow):
         self.lineFirstName.setText(firstName) # first name of the patient whose row was selected in the search tablewidget, comes from query or just accessing the tablewidget
         self.lineLastName.setDisabled(True)
         self.lineLastName.setText(lastName) # last name of the patient whose row was selected in the search tablewidget, comes from query or just accessing the tablewidget
-        self.linePhone.setDisabled(True)
-        self.linePhone.setText(Phone) # phone of the patient whose row was selected in the search tablewidget, comes from query or just accessing the tablewidget
+        self.lineMR.setDisabled(True)
+        self.lineMR.setText(MR) # phone of the patient whose row was selected in the search tablewidget, comes from query or just accessing the tablewidget
+        self.linePatientTurn.setDisabled(True)
+        self.lineCurrentPatient.setDisabled(True)
+        self.dateEditAppointment.setMinimumDate(QDate.currentDate())
+        
 
         self.populateSpecialization()
         self.populateDoctor()
         self.showAmount()
+        self.showPatientTurn()
         self.comboSpecialization.currentIndexChanged.connect(self.populateDoctor)
         self.comboDoctor.currentIndexChanged.connect(self.showAmount)
+        self.dateEditAppointment.dateChanged.connect(self.showPatientTurn)
 
         cursor.execute("SELECT DATEPART(day,GETDATE()), DATEPART(month,GETDATE()), DATEPART(year,GETDATE())")
         date = cursor.fetchall()
@@ -324,7 +358,7 @@ class BookAppointment(QtWidgets.QMainWindow):
             self.comboSpecialization.addItems(i)
 
         self.comboSpecialization.setCurrentIndex(0)
-        
+
     def populateDoctor(self):
         # populate the combobox with the doctors of the selected specialization
         self.comboDoctor.clear()
@@ -336,18 +370,61 @@ class BookAppointment(QtWidgets.QMainWindow):
         self.comboDoctor.setCurrentIndex(0)
 
     def showAmount(self):
-        # print(self.comboDoctor.currentText())
         cursor.execute(f"SELECT ConsultationCost FROM Doctors WHERE DoctorID IN (SELECT UserID FROM Users WHERE FirstName + ' ' + LastName = '{self.comboDoctor.currentText()}')")
-        # print(cursor.fetchall())
         fetched = cursor.fetchall()
         if fetched != []:
             self.lineAmount.setText(str(fetched[0][0]))
         else:
             self.lineAmount.setText('None')
 
+        self.showPatientTurn()
+
+    def showPatientTurn(self):
+        date = self.dateEditAppointment.date().toString("yyyy-MM-dd") # not working by putting this in fstring
+
+        cursor.execute(f"SELECT COUNT(*) FROM Appointments WHERE DoctorID IN (SELECT UserID FROM Users WHERE FirstName + ' ' + LastName = '{self.comboDoctor.currentText()}') AND Date = '{date}'")
+        fetched = cursor.fetchall()
+        if fetched != []:
+            self.linePatientTurn.setText(str(fetched[0][0]+1))
+        else:
+            self.linePatientTurn.setText('None')
+
+        self.showCurrentTurn()
+
+    def showCurrentTurn(self):
+        date = self.dateEditAppointment.date().toString("yyyy-MM-dd")
+
+        cursor.execute(f"SELECT TurnNum FROM Appointments WHERE DoctorID IN (SELECT UserID FROM Users WHERE FirstName + ' ' + LastName = '{self.comboDoctor.currentText()}') AND Date = '{date}' AND StatusID IN (SELECT StatusID FROM Status WHERE Status = 'Ongoing')")
+        fetched = cursor.fetchall()
+        if fetched != []:
+            self.lineCurrentPatient.setText(str(fetched[0][0]))
+        else:
+            self.lineCurrentPatient.setText('None')
+
     def confirmAppointment(self):
-        # insert into appointments table if there is no existing appointment at the given date and time
-        self.close()
+        
+        cursor.execute("SELECT NumPatients FROM Doctors WHERE DoctorID IN (SELECT UserID FROM Users WHERE FirstName + ' ' + LastName = '" + str(self.comboDoctor.currentText()) + "')")
+        patientCapacity = int(cursor.fetchall()[0][0])
+
+        if int(self.linePatientTurn.text()) > patientCapacity:
+            self.ErrorWindow = QtWidgets.QMessageBox()
+            self.ErrorWindow.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            self.ErrorWindow.setText("This doctor is fully booked for this day. Please select another doctor or day.")
+            self.ErrorWindow.setWindowTitle("Fully Booked")
+            self.ErrorWindow.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+            self.ErrorWindow.exec()
+
+        else:
+            cursor.execute(f'''
+                            INSERT INTO Appointments (MR, DoctorID, Date, TurnNum, StatusID)
+                            VALUES ({self.lineMR.text()}, (SELECT UserID FROM Users WHERE FirstName + ' ' + LastName = '{self.comboDoctor.currentText()}'), '{self.dateEditAppointment.text()}', {self.linePatientTurn.text()}, (SELECT StatusID FROM Status WHERE Status = 'Upcoming'))
+                            ''')
+            connection.commit()
+
+            self.confirmation = QtWidgets.QMessageBox.information(self, "Appointment Booked", "Appointment has been successfully booked!", QtWidgets.QMessageBox.StandardButton.Ok)
+
+            if self.confirmation == QtWidgets.QMessageBox.StandardButton.Ok or self.confirmation == QtWidgets.QMessageBox.StandardButton.Close:
+                self.close()
 
 class AddPatient(QtWidgets.QMainWindow):
     def __init__(self):
@@ -797,6 +874,13 @@ class UpdateNurse(QtWidgets.QMainWindow):
         super(UpdateNurse, self).__init__()
         uic.loadUi("Screens\Admin UpdateNurse.ui",self)
         self.setWindowTitle("Update Nurse")
+<<<<<<< Updated upstream
+=======
+        # Fixes the screen and Disables Maximize Button
+        self.width = self.frameGeometry().width()
+        self.height = self.frameGeometry().height()
+        self.setFixedSize(self.width, self.height)
+>>>>>>> Stashed changes
 
         self.pushUpdate.clicked.connect(self.updateNurse)
         self.pushCancel.clicked.connect(self.close)
@@ -822,6 +906,12 @@ class UpdateDoctor(QtWidgets.QMainWindow):
 
 
 app = QtWidgets.QApplication(sys.argv) 
+<<<<<<< Updated upstream
+=======
+
+qdarktheme.setup_theme()
+
+>>>>>>> Stashed changes
 window = UI() 
 window.show()
 
