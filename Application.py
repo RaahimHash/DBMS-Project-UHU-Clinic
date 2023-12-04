@@ -2,16 +2,14 @@
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QHeaderView
+from bcrypt import hashpw, checkpw, gensalt # hashing
 import sys
 import pyodbc
+import qdarktheme
 
-<<<<<<< Updated upstream
-server = 'DESKTOP-HT3NB74' 
-=======
 # server = 'DESKTOP-HT3NB74 # Eman
 # server = 'DESKTOP-F3QE491\IBAD' # Ibad
 server = 'DESKTOP-QNMUBSC\DBSFALL23' # Raahim
->>>>>>> Stashed changes
 database = 'Final_Final_Project'  
 use_windows_authentication = True 
 
@@ -85,20 +83,11 @@ class UI(QtWidgets.QMainWindow):
         self.usernameCombo.setCurrentIndex(0)
 
     def signin(self):
-<<<<<<< Updated upstream
-        # cursor.execute(  f'select password from Users where FirstName + ' ' + LastName =  {self.usernameCombo.currentText()} and typeID = ( select typeID from Types where Type = {self.typeCombo.currentText()})')
-        #print(cursor.fetchall())
-
-        cursor.execute("select Password from Users where FirstName + ' ' + LastName = '" + str(self.usernameCombo.currentText()) + "'" )#+ " and TypeID = ( select typeID from Types where Type ='" + str(self.typeCombo.currentText()) + "'" )
-        # print(self.passwordLine.text() , str(cursor.fetchall()[0][0]))
-        if self.passwordLine.text() == str(cursor.fetchall()[0][0]) : # and it matches the password of the user whose username is selected in the usernameCombo
-=======
         
         cursor.execute("select Password from Users where FirstName + ' ' + LastName = '" + str(self.usernameCombo.currentText()) + "'" )
 
         currentUser = self.usernameCombo.currentText()
         if checkpw(self.passwordLine.text().encode('utf-8'),str(cursor.fetchall()[0][0]).encode('utf-8')): # and it matches the password of the user whose username is selected in the usernameCombo
->>>>>>> Stashed changes
             if self.typeCombo.currentText() == "Receptionist":
                 self.receptionistscreen = ReceptionistMainMenu()
                 self.receptionistscreen.show()
@@ -138,14 +127,11 @@ class ReceptionistMainMenu(QtWidgets.QMainWindow):
         super(ReceptionistMainMenu, self).__init__()
         uic.loadUi("Screens\Receptionist MainMenu.ui",self)
         self.setWindowTitle("Receptionist View")
-<<<<<<< Updated upstream
-=======
 
         # Fixes the screen and Disables Maximize Button
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
->>>>>>> Stashed changes
         
         cursor.execute("""
                     select FirstName + ' ' + LastName as UserName from Users
@@ -301,24 +287,10 @@ class BookAppointment(QtWidgets.QMainWindow):
         uic.loadUi("Screens\Receptionist AddAppointment.ui",self)
         self.setWindowTitle("Book Appointment")
 
-<<<<<<< Updated upstream
-        # selected_row=self.tablewidgetSearch.currentRow()
-        # if selected_row>=0: 
-        #     MrNum=self.tablewidgetSearch.item(selected_row,0).text()
-        #     patientName=self.tablewidgetSearch.item(selected_row,1).text()
-        #     patientPhone=self.tablewidgetSearch.item(selected_row,2).text()
-        #     print(selected_row,MrNum, patientName,patientPhone)
-            # book_type=self.tablewidgetSearch.item(selected_row,3).text()
-            # book_issue=eval(self.tablewidgetSearch.item(selected_row,4).text())
-
-            # self.view_Form=BookAppointment(MrNum, patientName,patientPhone)
-            # self.view_Form.show()
-=======
         # Fixes the screen and Disables Maximize Button
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
->>>>>>> Stashed changes
 
         firstName = Name.split()[0]
         lastName = Name.split()[-1]
@@ -874,13 +846,10 @@ class UpdateNurse(QtWidgets.QMainWindow):
         super(UpdateNurse, self).__init__()
         uic.loadUi("Screens\Admin UpdateNurse.ui",self)
         self.setWindowTitle("Update Nurse")
-<<<<<<< Updated upstream
-=======
         # Fixes the screen and Disables Maximize Button
         self.width = self.frameGeometry().width()
         self.height = self.frameGeometry().height()
         self.setFixedSize(self.width, self.height)
->>>>>>> Stashed changes
 
         self.pushUpdate.clicked.connect(self.updateNurse)
         self.pushCancel.clicked.connect(self.close)
@@ -906,12 +875,9 @@ class UpdateDoctor(QtWidgets.QMainWindow):
 
 
 app = QtWidgets.QApplication(sys.argv) 
-<<<<<<< Updated upstream
-=======
 
 qdarktheme.setup_theme()
 
->>>>>>> Stashed changes
 window = UI() 
 window.show()
 
