@@ -7,7 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>461</width>
+<<<<<<< Updated upstream
     <height>620</height>
+=======
+    <height>478</height>
+>>>>>>> Stashed changes
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +24,7 @@
       <x>10</x>
       <y>10</y>
       <width>441</width>
-      <height>551</height>
+      <height>431</height>
      </rect>
     </property>
     <property name="title">
@@ -70,7 +74,7 @@
       <rect>
        <x>100</x>
        <y>20</y>
-       <width>311</width>
+       <width>321</width>
        <height>20</height>
       </rect>
      </property>
@@ -83,7 +87,7 @@
       <rect>
        <x>100</x>
        <y>180</y>
-       <width>311</width>
+       <width>321</width>
        <height>22</height>
       </rect>
      </property>
@@ -105,7 +109,11 @@
      <property name="geometry">
       <rect>
        <x>20</x>
+<<<<<<< Updated upstream
        <y>260</y>
+=======
+       <y>220</y>
+>>>>>>> Stashed changes
        <width>47</width>
        <height>13</height>
       </rect>
@@ -118,8 +126,13 @@
      <property name="geometry">
       <rect>
        <x>100</x>
+<<<<<<< Updated upstream
        <y>260</y>
        <width>311</width>
+=======
+       <y>220</y>
+       <width>321</width>
+>>>>>>> Stashed changes
        <height>22</height>
       </rect>
      </property>
@@ -153,10 +166,17 @@
     <widget class="QPushButton" name="pushAdd">
      <property name="geometry">
       <rect>
+<<<<<<< Updated upstream
        <x>260</x>
        <y>510</y>
        <width>75</width>
        <height>23</height>
+=======
+       <x>254</x>
+       <y>390</y>
+       <width>81</width>
+       <height>31</height>
+>>>>>>> Stashed changes
       </rect>
      </property>
      <property name="text">
@@ -166,10 +186,17 @@
     <widget class="QPushButton" name="pushCancel">
      <property name="geometry">
       <rect>
+<<<<<<< Updated upstream
        <x>350</x>
        <y>510</y>
        <width>75</width>
        <height>23</height>
+=======
+       <x>344</x>
+       <y>390</y>
+       <width>81</width>
+       <height>31</height>
+>>>>>>> Stashed changes
       </rect>
      </property>
      <property name="text">
@@ -181,7 +208,7 @@
       <rect>
        <x>100</x>
        <y>60</y>
-       <width>311</width>
+       <width>321</width>
        <height>20</height>
       </rect>
      </property>
@@ -194,7 +221,7 @@
       <rect>
        <x>100</x>
        <y>100</y>
-       <width>311</width>
+       <width>321</width>
        <height>20</height>
       </rect>
      </property>
@@ -213,9 +240,15 @@
      <property name="geometry">
       <rect>
        <x>10</x>
+<<<<<<< Updated upstream
        <y>300</y>
        <width>421</width>
        <height>161</height>
+=======
+       <y>250</y>
+       <width>421</width>
+       <height>131</height>
+>>>>>>> Stashed changes
       </rect>
      </property>
      <property name="title">
@@ -274,7 +307,7 @@ Address:</string>
       <rect>
        <x>100</x>
        <y>140</y>
-       <width>311</width>
+       <width>321</width>
        <height>20</height>
       </rect>
      </property>

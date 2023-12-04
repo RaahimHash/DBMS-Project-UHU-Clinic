@@ -24,9 +24,9 @@
      </rect>
     </property>
     <property name="title">
-     <string>Upcoming Patients:</string>
+     <string>Upcoming Appointments:</string>
     </property>
-    <widget class="QTableWidget" name="tablewidgetUpcomingPatients">
+    <widget class="QTableWidget" name="tablewidgetUpcoming">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -35,6 +35,14 @@
        <height>421</height>
       </rect>
      </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID</string>
+      </property>
+     </column>
      <column>
       <property name="text">
        <string>MR</string>
@@ -52,7 +60,7 @@
      </column>
      <column>
       <property name="text">
-       <string>Time</string>
+       <string>Turn</string>
       </property>
      </column>
     </widget>
@@ -211,6 +219,7 @@
      </property>
     </widget>
    </widget>
+<<<<<<< Updated upstream
    <widget class="QPushButton" name="pushClose">
     <property name="geometry">
      <rect>
@@ -224,6 +233,8 @@
      <string>Close</string>
     </property>
    </widget>
+=======
+>>>>>>> Stashed changes
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>

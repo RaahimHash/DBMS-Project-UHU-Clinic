@@ -7,7 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>471</width>
+<<<<<<< Updated upstream
     <height>603</height>
+=======
+    <height>480</height>
+>>>>>>> Stashed changes
    </rect>
   </property>
   <property name="windowTitle">

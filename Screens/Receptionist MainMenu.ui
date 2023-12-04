@@ -126,6 +126,9 @@
        <height>411</height>
       </rect>
      </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
      <column>
       <property name="text">
        <string>MR</string>
@@ -151,6 +154,11 @@
        <string>Date</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Turn </string>
+      </property>
+     </column>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
@@ -165,19 +173,6 @@
       <string>Doctor:</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>40</y>
-       <width>51</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Date:</string>
-     </property>
-    </widget>
     <widget class="QComboBox" name="comboDoctor">
      <property name="geometry">
       <rect>
@@ -188,27 +183,20 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushSearchWaitlist">
-     <property name="geometry">
-      <rect>
-       <x>450</x>
-       <y>40</y>
-       <width>101</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Search</string>
-     </property>
-    </widget>
     <widget class="QDateEdit" name="dateEdit">
      <property name="geometry">
       <rect>
-       <x>280</x>
+       <x>390</x>
        <y>40</y>
        <width>151</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="displayFormat">
+      <string>MM/dd/yyyy</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="pushClearFilters">
@@ -222,6 +210,32 @@
      </property>
      <property name="text">
       <string>Clear Filters</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkDate">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>40</y>
+       <width>16</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>40</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Date:</string>
      </property>
     </widget>
    </widget>
@@ -245,6 +259,9 @@
        <width>341</width>
        <height>281</height>
       </rect>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
      </property>
      <column>
       <property name="text">
@@ -292,9 +309,15 @@
    <widget class="QPushButton" name="pushCancel">
     <property name="geometry">
      <rect>
+<<<<<<< Updated upstream
       <x>860</x>
       <y>520</y>
       <width>121</width>
+=======
+      <x>420</x>
+      <y>540</y>
+      <width>131</width>
+>>>>>>> Stashed changes
       <height>31</height>
      </rect>
     </property>
@@ -302,6 +325,7 @@
      <string>Cancel Appointment</string>
     </property>
    </widget>
+<<<<<<< Updated upstream
    <widget class="QPushButton" name="pushRefreshWaitlist">
     <property name="geometry">
      <rect>
@@ -315,6 +339,8 @@
      <string>Refresh Waitlist</string>
     </property>
    </widget>
+=======
+>>>>>>> Stashed changes
    <widget class="QPushButton" name="pushLogOut">
     <property name="geometry">
      <rect>

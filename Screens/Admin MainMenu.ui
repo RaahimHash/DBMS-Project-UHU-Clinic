@@ -97,6 +97,19 @@
        <height>361</height>
       </rect>
      </property>
+<<<<<<< Updated upstream
+=======
+     <column>
+      <property name="text">
+       <string>First Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Last Name</string>
+      </property>
+     </column>
+>>>>>>> Stashed changes
     </widget>
     <widget class="QPushButton" name="pushAddUser">
      <property name="geometry">
