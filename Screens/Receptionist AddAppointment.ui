@@ -91,7 +91,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Phone#:</string>
+      <string>MR:</string>
      </property>
     </widget>
    </widget>
@@ -160,7 +160,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="linePhone">
+   <widget class="QLineEdit" name="lineMR">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -241,7 +241,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Current Patient:</string>
+      <string>Current Turn:</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineCurrentPatient">
@@ -317,6 +317,12 @@
        <width>221</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="displayFormat">
+      <string>MM/dd/yyyy</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLineEdit" name="linePatientTurn">

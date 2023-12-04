@@ -27,9 +27,9 @@
      </rect>
     </property>
     <property name="title">
-     <string>Upcoming Patients:</string>
+     <string>Upcoming Appointments:</string>
     </property>
-    <widget class="QTableWidget" name="tablewidgetUpcomingPatients">
+    <widget class="QTableWidget" name="tablewidgetUpcoming">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -38,6 +38,14 @@
        <height>421</height>
       </rect>
      </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <column>
+      <property name="text">
+       <string>ID</string>
+      </property>
+     </column>
      <column>
       <property name="text">
        <string>MR</string>
@@ -55,7 +63,7 @@
      </column>
      <column>
       <property name="text">
-       <string>Time</string>
+       <string>Turn</string>
       </property>
      </column>
     </widget>
@@ -213,19 +221,6 @@
       </rect>
      </property>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="pushClose">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>480</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Close</string>
-    </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
