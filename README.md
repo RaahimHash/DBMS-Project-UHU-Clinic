@@ -17,7 +17,7 @@ The database 'project' should now be created and populated with dummy data.
 
 - Step 2: Install Required Packages
 
--- Make sure to install the following Python packages using pip:
+Make sure to install the following Python packages using pip:
 
 ```bash
 pip install pyqtdarktheme
