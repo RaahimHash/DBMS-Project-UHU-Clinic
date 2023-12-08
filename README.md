@@ -32,7 +32,8 @@ Locate the variable named server and enter your SQL Server name.
 
 - Step 4: Run the Application
 
-- Dependencies
+## Dependencies
+
 MS SQL: Database management system used for the backend.
 Python: Programming language used for the backend implementation.
 pyodbc: Python library for connecting to SQL Server.
