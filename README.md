@@ -35,7 +35,11 @@ Locate the variable named server and enter your SQL Server name.
 ## Dependencies
 
 MS SQL: Database management system used for the backend.
+
 Python: Programming language used for the backend implementation.
+
 pyodbc: Python library for connecting to SQL Server.
+
 PyQtDarkTheme: PyQt theme for a visually appealing frontend.
+
 bcrypt: Python library for password hashing.
