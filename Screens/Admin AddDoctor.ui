@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
-    <height>311</height>
+    <width>462</width>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +21,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>20</y>
       <width>441</width>
-      <height>251</height>
+      <height>341</height>
      </rect>
     </property>
     <property name="title">
@@ -69,7 +72,7 @@
      <property name="geometry">
       <rect>
        <x>250</x>
-       <y>220</y>
+       <y>300</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -82,7 +85,7 @@
      <property name="geometry">
       <rect>
        <x>340</x>
-       <y>220</y>
+       <y>300</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -108,7 +111,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>100</y>
+       <y>140</y>
        <width>81</width>
        <height>16</height>
       </rect>
@@ -121,7 +124,7 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>100</y>
+       <y>140</y>
        <width>311</width>
        <height>22</height>
       </rect>
@@ -131,7 +134,7 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>140</y>
+       <y>180</y>
        <width>311</width>
        <height>22</height>
       </rect>
@@ -141,7 +144,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>140</y>
+       <y>180</y>
        <width>81</width>
        <height>16</height>
       </rect>
@@ -154,7 +157,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>180</y>
+       <y>220</y>
        <width>81</width>
        <height>16</height>
       </rect>
@@ -167,29 +170,100 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>180</y>
+       <y>220</y>
        <width>311</width>
        <height>22</height>
       </rect>
      </property>
     </widget>
+    <widget class="QLineEdit" name="linePassword">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>100</y>
+       <width>311</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Password:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>260</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cons. Cost</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="linePatients">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>260</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Normal</enum>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineCost">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>260</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::Normal</enum>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>260</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Patients:</string>
+     </property>
+    </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>463</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuScreen7">
-    <property name="title">
-     <string>Doctor's information</string>
-    </property>
-   </widget>
-   <addaction name="menuScreen7"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

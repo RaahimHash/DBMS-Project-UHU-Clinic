@@ -2,16 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>461</width>
-<<<<<<< Updated upstream
-    <height>620</height>
-=======
     <height>478</height>
->>>>>>> Stashed changes
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>20</y>
       <width>441</width>
       <height>431</height>
      </rect>
@@ -109,11 +108,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-<<<<<<< Updated upstream
-       <y>260</y>
-=======
        <y>220</y>
->>>>>>> Stashed changes
        <width>47</width>
        <height>13</height>
       </rect>
@@ -126,28 +121,10 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-<<<<<<< Updated upstream
-       <y>260</y>
-       <width>311</width>
-=======
        <y>220</y>
        <width>321</width>
->>>>>>> Stashed changes
        <height>22</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>220</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Age: </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
@@ -166,17 +143,10 @@
     <widget class="QPushButton" name="pushAdd">
      <property name="geometry">
       <rect>
-<<<<<<< Updated upstream
-       <x>260</x>
-       <y>510</y>
-       <width>75</width>
-       <height>23</height>
-=======
        <x>254</x>
        <y>390</y>
        <width>81</width>
        <height>31</height>
->>>>>>> Stashed changes
       </rect>
      </property>
      <property name="text">
@@ -186,17 +156,10 @@
     <widget class="QPushButton" name="pushCancel">
      <property name="geometry">
       <rect>
-<<<<<<< Updated upstream
-       <x>350</x>
-       <y>510</y>
-       <width>75</width>
-       <height>23</height>
-=======
        <x>344</x>
        <y>390</y>
        <width>81</width>
        <height>31</height>
->>>>>>> Stashed changes
       </rect>
      </property>
      <property name="text">
@@ -226,29 +189,13 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineAge">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>220</y>
-       <width>311</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
        <x>10</x>
-<<<<<<< Updated upstream
-       <y>300</y>
-       <width>421</width>
-       <height>161</height>
-=======
        <y>250</y>
        <width>421</width>
        <height>131</height>
->>>>>>> Stashed changes
       </rect>
      </property>
      <property name="title">
@@ -297,7 +244,7 @@ Address:</string>
         <x>90</x>
         <y>90</y>
         <width>311</width>
-        <height>31</height>
+        <height>21</height>
        </rect>
       </property>
      </widget>
@@ -313,22 +260,6 @@ Address:</string>
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>461</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuScreen3">
-    <property name="title">
-     <string>Add patient details</string>
-    </property>
-   </widget>
-   <addaction name="menuScreen3"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

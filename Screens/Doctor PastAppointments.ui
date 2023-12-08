@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>715</width>
-    <height>614</height>
+    <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,12 +32,20 @@
     <widget class="QTableWidget" name="tablewidgetSearch">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>80</y>
-       <width>651</width>
+       <width>671</width>
        <height>411</height>
       </rect>
      </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <column>
+      <property name="text">
+       <string>AppointmentID</string>
+      </property>
+     </column>
      <column>
       <property name="text">
        <string>MR</string>
@@ -42,22 +53,22 @@
      </column>
      <column>
       <property name="text">
-       <string>Date</string>
+       <string>Name</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Time</string>
+       <string>Date</string>
       </property>
      </column>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>40</y>
-       <width>51</width>
-       <height>21</height>
+       <x>10</x>
+       <y>30</y>
+       <width>61</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -67,22 +78,22 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>240</x>
-       <y>40</y>
-       <width>51</width>
-       <height>21</height>
+       <x>170</x>
+       <y>30</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>Date:</string>
+      <string>Start:</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushSearch">
      <property name="geometry">
       <rect>
-       <x>440</x>
-       <y>40</y>
-       <width>111</width>
+       <x>470</x>
+       <y>30</y>
+       <width>101</width>
        <height>31</height>
       </rect>
      </property>
@@ -94,31 +105,37 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>40</y>
-       <width>171</width>
-       <height>20</height>
+       <y>30</y>
+       <width>91</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="readOnly">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QDateEdit" name="dateEdit">
+    <widget class="QDateEdit" name="dateEditStart">
      <property name="geometry">
       <rect>
-       <x>270</x>
-       <y>40</y>
-       <width>131</width>
-       <height>22</height>
+       <x>210</x>
+       <y>30</y>
+       <width>91</width>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="displayFormat">
+      <string>MM/dd/yyyy</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="pushClearFilters">
      <property name="geometry">
       <rect>
-       <x>560</x>
-       <y>40</y>
-       <width>111</width>
+       <x>580</x>
+       <y>30</y>
+       <width>101</width>
        <height>31</height>
       </rect>
      </property>
@@ -126,24 +143,66 @@
       <string>Clear Filters</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="pushClose">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>530</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Close</string>
-    </property>
+    <widget class="QDateEdit" name="dateEditEnd">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>30</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="displayFormat">
+      <string>MM/dd/yyyy</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>30</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>End:</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkStart">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>40</y>
+       <width>16</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkEnd">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>40</y>
+       <width>16</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QPushButton" name="pushUpdate">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>570</x>
       <y>530</y>
       <width>121</width>
       <height>31</height>
@@ -153,22 +212,6 @@
      <string>Update</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>715</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuScreen1">
-    <property name="title">
-     <string>Rec - MainMenu</string>
-    </property>
-   </widget>
-   <addaction name="menuScreen1"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
